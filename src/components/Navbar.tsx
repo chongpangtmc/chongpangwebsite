@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Menu, X, Globe, ShieldCheck } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -50,7 +50,7 @@ const Navbar = () => {
             />
             <div className="flex flex-col justify-center">
               <span className="font-chinese text-white font-bold text-base sm:text-lg tracking-tight leading-tight group-hover:text-[#F2DF74] transition-colors">
-                {t('忠邦华语讲演会', 'Chong Pang Mandarin TMC')}
+                {t('忠邦华语演讲会', 'Chong Pang Mandarin TMC')}
               </span>
               <div className="flex items-center mt-0.5">
                 <span className="text-white/40 text-[9px] font-medium tracking-wider uppercase">
@@ -73,10 +73,6 @@ const Navbar = () => {
                 </Link>
               )
             ))}
-            <Link to="/admin" className="text-white/90 hover:text-[#F2DF74] transition-colors text-xs lg:text-sm font-semibold tracking-wide flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              {t('后台', 'Admin')}
-            </Link>
             <button onClick={toggle} className="ml-2 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/30 text-white hover:text-[#F2DF74] hover:border-[#F2DF74]/60 transition-all text-xs font-medium">
               <Globe className="w-3.5 h-3.5" />
               {lang === 'zh' ? 'EN' : '中文'}
@@ -129,13 +125,6 @@ const Navbar = () => {
                   </Link>
                 )
               ))}
-              <Link 
-                to="/admin" 
-                onClick={() => setOpen(false)} 
-                className="block text-white/90 hover:text-[#F2DF74] font-bold py-3 border-b border-white/5 last:border-0"
-              >
-                {t('后台管理', 'Admin')}
-              </Link>
             </div>
           </motion.div>
         )}

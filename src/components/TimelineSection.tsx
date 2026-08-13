@@ -7,7 +7,7 @@ const sections = [
     icon: Users,
     zhTitle: '分会介绍',
     enTitle: 'About the Club',
-    zhText: '介绍忠邦华语讲演会的使命、例会形式与学习氛围。',
+    zhText: '介绍忠邦华语演讲会的使命、例会形式与学习氛围。',
     enText: 'Introduce the club mission, meeting format, and learning culture.',
   },
   {
@@ -58,7 +58,7 @@ const TimelineSection = () => {
             {t('网站第一版规划', 'First Version Structure')}
           </p>
           <h2 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-            {t('一个适合长期维护的讲演会官网', 'A club website built for long-term use')}
+            {t('一个适合长期维护的演讲会官网', 'A club website built for long-term use')}
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
             {t(

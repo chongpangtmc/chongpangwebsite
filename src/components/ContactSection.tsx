@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { CalendarDays, Clock, Mail, MapPin, MessageCircle, UserPlus } from 'lucide-react';
+import { Clock, Mail, MapPin, MessageCircle, UserPlus } from 'lucide-react';
 
 const getThirdThursday = (year: number, month: number) => {
   const firstDay = new Date(year, month, 1).getDay();
@@ -118,10 +118,6 @@ const ContactSection = () => {
               <a href="mailto:hello@hellosg.org" className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl bg-[#772432] px-6 py-4 text-sm font-black text-white">
                 <MessageCircle className="h-4 w-4" />
                 {t('联系报名参观', 'Contact to Visit')}
-              </a>
-              <a href="/admin" className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm font-black text-slate-700">
-                <CalendarDays className="h-4 w-4" />
-                {t('后台更新资料', 'Update in Admin')}
               </a>
             </div>
           </motion.div>

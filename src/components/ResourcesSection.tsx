@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Calendar, Camera, ImagePlus, Mic2, Trophy, Users } from 'lucide-react';
+import { Calendar, Camera, Mic2, Trophy, Users } from 'lucide-react';
 
 const activities = [
   {
@@ -50,7 +50,7 @@ const ResourcesSection = () => {
           <h1 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">{t('分会活动', 'Club Activities')}</h1>
           <p className="mt-5 text-base leading-7 text-slate-600">
             {t(
-              '这里会展示忠邦华语讲演会的例会、比赛、工作坊与会员活动。第一版先放栏目结构，接上 Cloudflare R2 后就可以从后台上传照片。',
+              '这里会展示忠邦华语演讲会的例会、比赛、工作坊与会员活动。第一版先放栏目结构，接上 Cloudflare R2 后就可以上传照片。',
               'This page will show meetings, contests, workshops, and member activities. Once Cloudflare R2 is connected, photos can be uploaded from the admin area.'
             )}
           </p>
@@ -83,10 +83,6 @@ const ResourcesSection = () => {
               <p className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-[#006094]">{t('相册预留区', 'Gallery Placeholder')}</p>
               <h2 className="text-2xl font-black text-slate-950">{t('活动照片', 'Activity Photos')}</h2>
             </div>
-            <a href="/admin" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#772432] px-5 py-3 text-sm font-black text-white">
-              <ImagePlus className="h-4 w-4" />
-              {t('进入后台上传', 'Upload in Admin')}
-            </a>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">

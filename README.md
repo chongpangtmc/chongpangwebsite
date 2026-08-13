@@ -1,6 +1,6 @@
-# 忠邦华语讲演会官网
+# 忠邦华语演讲会官网
 
-Chong Pang Mandarin Toastmasters Club website.
+Chong Pang Mandarin TMC website.
 
 ## 技术栈
 

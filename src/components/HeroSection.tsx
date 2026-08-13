@@ -32,7 +32,7 @@ const HeroSection = () => {
           </div>
 
           <h1 className="font-chinese text-5xl font-black leading-tight text-slate-950 sm:text-6xl lg:text-7xl">
-            {t('忠邦华语讲演会', 'Chong Pang Mandarin Toastmasters')}
+            {t('忠邦华语演讲会', 'Chong Pang Mandarin TMC')}
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg font-medium leading-8 text-slate-600 sm:text-xl">

@@ -27,7 +27,7 @@ const Footer = () => {
           style={{ color: TI_GOLD }} 
           className="font-chinese text-sm mb-3 tracking-widest font-bold"
         >
-          {t('忠邦华语讲演会', 'Chong Pang Mandarin Toastmasters Club')}
+          {t('忠邦华语演讲会', 'Chong Pang Mandarin TMC')}
         </p>
         
         {/* 版权信息 */}
@@ -72,7 +72,7 @@ const Footer = () => {
           <span className="w-px h-3 bg-white/10 hidden sm:block" /> {/* 分隔线 */}
 
           <a 
-            href="https://www.facebook.com/hellosgweb" 
+            href="https://www.facebook.com/cpmtmc" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-white/50 hover:text-[#F2DF74] transition-all hover:scale-110 flex items-center gap-1.5"
