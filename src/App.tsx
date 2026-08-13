@@ -11,6 +11,8 @@ import Footer from "./components/Footer";
 
 import Index from "./pages/Index";
 import Resources from "./pages/Resources";
+import MemberColumn from "./pages/MemberColumn";
+import Heritage from "./pages/Heritage";
 import ToolsPage from "./pages/ToolsPage"; 
 import Contact from "./pages/Contact"; 
 import Admin from "./pages/Admin"; 
@@ -37,6 +39,8 @@ const AppLayout = () => {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/member-column" element={<MemberColumn />} />
+          <Route path="/heritage" element={<Heritage />} />
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />

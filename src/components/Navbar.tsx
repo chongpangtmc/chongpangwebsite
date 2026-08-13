@@ -32,6 +32,8 @@ const Navbar = () => {
   const links = [
     { to: '/', label: t('首页', 'Home'), isAnchor: false },
     { to: '/resources', label: t('分会活动', 'Activities'), isAnchor: false },
+    { to: '/member-column', label: t('会友专栏', 'Members'), isAnchor: false },
+    { to: '/heritage', label: t('荣誉与传承', 'Heritage'), isAnchor: false },
     { to: '/tools', label: t('资料和工具', 'Tools'), isAnchor: false },
     { to: '/contact', label: t('联系我们', 'Contact'), isAnchor: false },
   ];

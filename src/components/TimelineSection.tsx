@@ -19,10 +19,10 @@ const sections = [
   },
   {
     icon: Award,
-    zhTitle: '历届会长',
-    enTitle: 'Past Presidents',
-    zhText: '记录历届会长与分会传承。',
-    enText: 'Document past presidents and the club legacy.',
+    zhTitle: '荣誉与传承',
+    enTitle: 'Honors & Heritage',
+    zhText: '记录比赛三甲名单、历届会长寄语与鼓励后辈的话语。',
+    enText: 'Document contest winners, past president messages, and club legacy.',
   },
   {
     icon: MessageSquareText,
