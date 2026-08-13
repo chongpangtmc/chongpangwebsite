@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自在斋 Zi Zai - 客户反馈</title>
+    <style>
+        /* 页面整体布局 */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; padding: 20px; background: #f4f7f6; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .card { background: white; padding: 35px 25px; border-radius: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); max-width: 360px; width: 100%; }
+        
+        /* 图标与标题 */
+        .icon { font-size: 55px; margin-bottom: 15px; }
+        h3 { margin: 10px 0; color: #2c3e50; font-size: 24px; }
+        p { color: #7f8c8d; font-size: 15px; line-height: 1.6; margin-bottom: 25px; }
+        
+        /* Email 收集区域 */
+        .collect-section { background: #fffcf0; padding: 20px; border-radius: 18px; margin-bottom: 25px; border: 1px dashed #f1c40f; }
+        .collect-section label { display: block; font-size: 13px; color: #967d09; margin-bottom: 10px; font-weight: bold; }
+        input[type="email"] { width: 100%; padding: 14px; border: 1px solid #dcdde1; border-radius: 12px; font-size: 16px; outline: none; text-align: center; box-sizing: border-box; transition: border 0.3s; }
+        input[type="email"]:focus { border-color: #1a73e8; }
+        
+        .hint { font-size: 13px; color: #1a73e8; margin-bottom: 15px; font-weight: bold; background: #e8f0fe; padding: 10px; border-radius: 10px; }
+        
+        /* 按钮样式 */
+        .btn { display: block; padding: 18px; margin: 14px 0; border-radius: 16px; text-decoration: none; font-weight: bold; font-size: 17px; transition: all 0.2s; border: none; cursor: pointer; width: 100%; }
+        .btn-good { background: #1a73e8; color: white; box-shadow: 0 6px 15px rgba(26, 115, 232, 0.3); }
+        .btn-bad { background: #fff; color: #7f8c8d; border: 1px solid #dcdde1; }
+        .btn:active { transform: scale(0.96); opacity: 0.9; }
+        
+        .footer { font-size: 11px; color: #bdc3c7; margin-top: 30px; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="icon">🥗</div>
+    <h3>喜欢自在斋吗？</h3>
+    <p>留下您的 Email，评价即可领取<br><strong>下回消费 $0.50 优惠券</strong></p>
+
+    <form id="reviewForm" action="https://formspree.io/f/your_id" method="POST">
+        <div class="collect-section">
+            <label>🧧 优惠券将发送至您的邮箱</label>
+            <input type="email" name="email" id="emailInput" placeholder="example@email.com" autocomplete="email" required>
+        </div>
+
+        <div class="hint">📸 提示：上传食物美照，权重更高哦！</div>
+
+        <button type="submit" class="btn btn-good">🌟 满意？去点 5 星好评</button>
+    </form>
+
+    <a href="https://wa.me/6580000000?text=你好老板，我有关于自在斋的建议：" class="btn btn-bad">💬 有建议？私聊老板</a>
+
+    <div class="footer">POWERED BY HELLOSG.ORG</div>
+</div>
+
+<script>
+    const form = document.getElementById('reviewForm');
+    // 您的 Google 评价直达链接
+    const googleUrl = "https://www.google.com/search?q=Zi+Zai+Vegetarian+Yishun&lrd=0x31da1252a7ffffff:0x342bb9bc476f6a8,3,1";
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // 阻止表单默认提交刷新页面
+        
+        const formData = new FormData(form);
+        
+        // 只有在填写了 Email 的情况下才尝试发送
+        if(formData.get('email')) {
+            // 使用 fetch 异步发送数据到 Formspree
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            }).finally(() => {
+                // 不管发送是否成功（比如网络波动），300ms 后强制跳转到 Google
+                setTimeout(() => {
+                    window.location.href = googleUrl;
+                }, 300);
+            });
+        } else {
+            window.location.href = googleUrl;
+        }
+    });
+</script>
+
+</body>
+</html>

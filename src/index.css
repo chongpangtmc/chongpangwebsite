@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 10% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 10% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 10% 12%;
+
+    --primary: 350 72% 30%;
+    --primary-foreground: 42 80% 90%;
+
+    --secondary: 42 60% 50%;
+    --secondary-foreground: 0 10% 10%;
+
+    --muted: 30 20% 94%;
+    --muted-foreground: 0 5% 45%;
+
+    --accent: 42 80% 55%;
+    --accent-foreground: 0 10% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 350 72% 30%;
+
+    --radius: 0.5rem;
+
+    /* Custom anniversary tokens */
+    --gold: 42 80% 55%;
+    --gold-light: 42 70% 75%;
+    --gold-dark: 42 60% 35%;
+    --crimson: 350 72% 30%;
+    --crimson-deep: 350 80% 15%;
+    --crimson-light: 350 60% 45%;
+    --pearl: 30 30% 95%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --font-display: 'Playfair Display', 'Noto Serif SC', serif;
+    --font-chinese: 'Noto Serif SC', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  .dark {
+    --background: 350 80% 5%;
+    --foreground: 42 30% 92%;
+
+    --card: 350 60% 8%;
+    --card-foreground: 42 30% 92%;
+
+    --popover: 350 60% 8%;
+    --popover-foreground: 42 30% 92%;
+
+    --primary: 42 80% 55%;
+    --primary-foreground: 350 80% 10%;
+
+    --secondary: 350 40% 20%;
+    --secondary-foreground: 42 30% 92%;
+
+    --muted: 350 30% 15%;
+    --muted-foreground: 30 15% 60%;
+
+    --accent: 42 60% 45%;
+    --accent-foreground: 350 80% 10%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 350 30% 18%;
+    --input: 350 30% 18%;
+    --ring: 42 80% 55%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-chinese {
+    font-family: var(--font-chinese);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+  .text-crimson {
+    color: hsl(var(--crimson));
+  }
+  .bg-crimson {
+    background-color: hsl(var(--crimson));
+  }
+  .bg-crimson-deep {
+    background-color: hsl(var(--crimson-deep));
+  }
+  .bg-pearl {
+    background-color: hsl(var(--pearl));
+  }
+  .gradient-gold {
+    background: linear-gradient(135deg, hsl(var(--gold-dark)), hsl(var(--gold)), hsl(var(--gold-light)));
+  }
+  .gradient-crimson {
+    background: linear-gradient(135deg, hsl(var(--crimson-deep)), hsl(var(--crimson)));
+  }
+  .border-gold {
+    border-color: hsl(var(--gold));
+  }
+  .gold-glow {
+    box-shadow: 0 0 30px hsl(var(--gold) / 0.3), 0 0 60px hsl(var(--gold) / 0.1);
+  }
+  .text-shadow-gold {
+    text-shadow: 0 2px 20px hsl(var(--gold) / 0.5);
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--crimson-deep));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--gold) / 0.5);
+  border-radius: 4px;
+}
