@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Clock, Mail, MapPin, MessageCircle, UserPlus } from 'lucide-react';
 
-const getThirdThursday = (year: number, month: number) => {
+const getFirstTuesday = (year: number, month: number) => {
   const firstDay = new Date(year, month, 1).getDay();
-  const firstThursday = (4 - firstDay + 7) % 7;
-  return firstThursday + 15;
+  const firstTuesday = (2 - firstDay + 7) % 7;
+  return firstTuesday + 1;
 };
 
 const MeetingCalendar = () => {
@@ -14,7 +14,7 @@ const MeetingCalendar = () => {
   const [viewDate, setViewDate] = useState(new Date());
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
-  const meetingDate = useMemo(() => getThirdThursday(year, month), [year, month]);
+  const meetingDate = useMemo(() => getFirstTuesday(year, month), [year, month]);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
@@ -49,7 +49,7 @@ const MeetingCalendar = () => {
         ))}
       </div>
       <p className="mt-4 border-t border-slate-100 pt-3 text-xs font-bold text-slate-500">
-        {lang === 'zh' ? '预设：每月第三个星期四，可按忠邦实际例会日调整。' : 'Default: third Thursday monthly, adjustable later.'}
+        {lang === 'zh' ? '例会日：每个月第一个星期二。' : 'Meeting day: first Tuesday of every month.'}
       </p>
     </div>
   );
@@ -62,14 +62,17 @@ const ContactSection = () => {
     {
       icon: <Clock className="h-5 w-5" />,
       title: t('例会时间', 'Meeting Time'),
-      value: t('每月固定例会', 'Monthly meeting'),
-      note: t('正式时间待填入', 'Exact time to be added'),
+      value: t('每个月第一个星期二', 'First Tuesday Monthly'),
+      note: t('欢迎来宾提前联系确认当月安排', 'Guests are welcome to confirm the monthly schedule before visiting'),
     },
     {
       icon: <MapPin className="h-5 w-5" />,
       title: t('例会地点', 'Venue'),
-      value: t('忠邦社区一带', 'Chong Pang area'),
-      note: t('正式地址待填入', 'Exact address to be added'),
+      value: 'Block 108 Yishun Ring Road #01-301 (S)760108',
+      note: t(
+        '最快路径：从义顺地铁站往右出口出站，过马路来到 Blk 154 Bus Stop 59091，乘搭 812，三个站后在 Blk 137 下车，过马路就是 Blk 108。',
+        'Fastest route: exit right from Yishun MRT, cross to Blk 154 Bus Stop 59091, take bus 812 for three stops, alight at Blk 137, then cross the road to Blk 108.'
+      ),
     },
     {
       icon: <Mail className="h-5 w-5" />,

@@ -90,8 +90,8 @@ const HeroSection = () => {
                     <CalendarDays className="h-5 w-5" />
                     <span className="text-sm font-black">{t('例会时间', 'Meeting Time')}</span>
                   </div>
-                  <p className="text-2xl font-black">{t('每月固定例会', 'Monthly Chapter Meeting')}</p>
-                  <p className="mt-1 text-sm text-white/65">{t('日期与地点可在后台更新', 'Schedule can be updated from admin')}</p>
+                  <p className="text-2xl font-black">{t('每个月第一个星期二', 'First Tuesday Monthly')}</p>
+                  <p className="mt-1 text-sm text-white/65">{t('欢迎来宾提前联系确认当月安排', 'Guests may confirm the monthly schedule before visiting')}</p>
                 </div>
 
                 <div className="rounded-2xl bg-white/10 p-5">
@@ -99,8 +99,8 @@ const HeroSection = () => {
                     <MapPin className="h-5 w-5" />
                     <span className="text-sm font-black">{t('地点', 'Venue')}</span>
                   </div>
-                  <p className="text-2xl font-black">{t('忠邦社区一带', 'Chong Pang Community')}</p>
-                  <p className="mt-1 text-sm text-white/65">{t('正式地址可稍后填入', 'Exact venue can be added later')}</p>
+                  <p className="text-2xl font-black">Block 108 Yishun Ring Road</p>
+                  <p className="mt-1 text-sm text-white/65">#01-301 (S)760108</p>
                 </div>
               </div>
             </div>
