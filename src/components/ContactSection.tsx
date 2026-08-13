@@ -63,7 +63,7 @@ const ContactSection = () => {
       icon: <Clock className="h-5 w-5" />,
       title: t('例会时间', 'Meeting Time'),
       value: t('每个月第一个星期二', 'First Tuesday Monthly'),
-      note: t('欢迎来宾提前联系确认当月安排', 'Guests are welcome to confirm the monthly schedule before visiting'),
+      note: '',
     },
     {
       icon: <MapPin className="h-5 w-5" />,
@@ -78,7 +78,7 @@ const ContactSection = () => {
       icon: <Mail className="h-5 w-5" />,
       title: t('联络邮箱', 'Email'),
       value: 'cp.mtmc@gmail.com',
-      note: t('可之后换成分会邮箱', 'Can be replaced later'),
+      note: '',
     },
   ];
 
@@ -111,7 +111,7 @@ const ContactSection = () => {
                   <div>
                     <p className="text-sm font-black text-slate-900">{item.title}</p>
                     <p className="mt-1 text-lg font-black text-[#006094]">{item.value}</p>
-                    <p className="mt-1 text-xs font-medium text-slate-400">{item.note}</p>
+                    {item.note && <p className="mt-1 text-xs font-medium text-slate-400">{item.note}</p>}
                   </div>
                 </div>
               ))}
