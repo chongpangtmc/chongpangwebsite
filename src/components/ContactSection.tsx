@@ -77,7 +77,7 @@ const ContactSection = () => {
     {
       icon: <Mail className="h-5 w-5" />,
       title: t('联络邮箱', 'Email'),
-      value: 'hello@hellosg.org',
+      value: 'cp.mtmc@gmail.com',
       note: t('可之后换成分会邮箱', 'Can be replaced later'),
     },
   ];
@@ -118,7 +118,7 @@ const ContactSection = () => {
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="mailto:hello@hellosg.org" className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl bg-[#772432] px-6 py-4 text-sm font-black text-white">
+              <a href="mailto:cp.mtmc@gmail.com" className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl bg-[#772432] px-6 py-4 text-sm font-black text-white">
                 <MessageCircle className="h-4 w-4" />
                 {t('联系报名参观', 'Contact to Visit')}
               </a>
