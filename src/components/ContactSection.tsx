@@ -97,8 +97,8 @@ const ContactSection = () => {
             <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">{t('欢迎来宾参加例会', 'Guests Are Welcome')}</h2>
             <p className="mt-4 text-base leading-7 text-slate-600">
               {t(
-                '第一次来不需要准备演讲。你可以先旁听，感受华语讲演会的流程、气氛和会员之间的支持。',
-                'No prepared speech is needed for your first visit. Come observe the meeting flow and experience the supportive atmosphere.'
+                '如果你正在寻找新加坡华语演讲会、华语讲演会或 Toastmasters 练习平台，欢迎先来义顺参加忠邦华语演讲会例会。第一次来不需要准备演讲，你可以先旁听，感受流程、气氛和会员之间的支持。',
+                'If you are looking for a Singapore Mandarin Toastmasters club or a Mandarin public speaking practice platform, visit Chong Pang Mandarin TMC in Yishun. No prepared speech is needed for your first visit; come observe the meeting flow and supportive atmosphere.'
               )}
             </p>
 

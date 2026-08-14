@@ -37,8 +37,8 @@ const HeroSection = () => {
 
           <p className="mt-6 max-w-2xl text-lg font-medium leading-8 text-slate-600 sm:text-xl">
             {t(
-              '在友善、积极、互相支持的环境中，练习华语演讲、即席表达与领导能力。欢迎每一位想把话说得更清楚、更有力量的朋友。',
-              'Practice Mandarin public speaking, table topics, and leadership skills in a warm, supportive club community.'
+              '忠邦华语演讲会是新加坡义顺的华语 Toastmasters 分会。在友善、积极、互相支持的环境中，练习华语演讲、即席表达与领导能力。欢迎每一位想把话说得更清楚、更有力量的朋友。',
+              'Chong Pang Mandarin Toastmasters Club is a Singapore Mandarin Toastmasters club in Yishun. Practice Mandarin public speaking, table topics, and leadership skills in a warm, supportive club community.'
             )}
           </p>
 
