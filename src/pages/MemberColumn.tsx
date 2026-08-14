@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageCircle, Quote, Send, Sparkles, User } from 'lucide-react';
 
@@ -8,6 +8,7 @@ type MemberMessage = {
   title: string;
   summary: string;
   message: string;
+  created_at?: string;
 };
 
 const initialMessages: MemberMessage[] = [
@@ -33,31 +34,66 @@ const MemberColumn = () => {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState('');
 
   const TI_MAROON = '#772432';
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch('/api/member-messages');
+        if (!response.ok) throw new Error('load failed');
+        const data = await response.json();
+        setMessages(data.messages?.length ? data.messages : initialMessages);
+      } catch {
+        setMessages(initialMessages);
+        setStatus('留言数据库还没有完成绑定，当前显示示例内容。');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMessages();
+  }, []);
+
+  const handleSubmit = async () => {
     if (!name.trim() || !message.trim()) {
       alert('请填写姓名和感言内容');
       return;
     }
 
-    setMessages([
-      ...messages,
-      {
-        id: `${Date.now()}`,
-        name: name.trim(),
-        title: title.trim() || '忠邦会员',
-        summary: summary.trim(),
-        message: message.trim(),
-      },
-    ]);
+    setSubmitting(true);
+    setStatus('');
 
-    setName('');
-    setTitle('');
-    setSummary('');
-    setMessage('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      const response = await fetch('/api/member-messages', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          title: title.trim(),
+          summary: summary.trim(),
+          message: message.trim(),
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || '发布失败');
+
+      setMessages([data.message, ...messages.filter((item) => !item.id.startsWith('sample-'))]);
+      setName('');
+      setTitle('');
+      setSummary('');
+      setMessage('');
+      setStatus('感言已保存。');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : '发布失败，请稍后再试');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -82,8 +118,14 @@ const MemberColumn = () => {
         </motion.div>
 
         <div className="mb-24 space-y-12">
-          <AnimatePresence>
-            {messages.map((item) => (
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-[#772432]" />
+              <p className="text-sm font-bold tracking-widest text-slate-400">载入中...</p>
+            </div>
+          ) : (
+            <AnimatePresence>
+              {messages.map((item) => (
               <motion.article
                 key={item.id}
                 layout
@@ -120,8 +162,9 @@ const MemberColumn = () => {
                   {item.message}
                 </p>
               </motion.article>
-            ))}
-          </AnimatePresence>
+              ))}
+            </AnimatePresence>
+          )}
         </div>
 
         <div className="relative overflow-hidden rounded-[2.5rem] border border-[#e8e8e8] bg-slate-50/80 p-6 shadow-sm backdrop-blur-sm sm:p-10">
@@ -166,16 +209,15 @@ const MemberColumn = () => {
               />
               <button
                 onClick={handleSubmit}
+                disabled={submitting}
                 style={{ backgroundColor: TI_MAROON }}
-                className="absolute bottom-4 right-4 flex items-center gap-2 rounded-xl px-8 py-3 font-bold text-white shadow-lg transition-all hover:scale-105"
+                className="absolute bottom-4 right-4 flex items-center gap-2 rounded-xl px-8 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                发布 <Send size={16} />
+                {submitting ? '发布中...' : '发布'} <Send size={16} />
               </button>
             </div>
 
-            <p className="text-xs font-medium text-slate-400">
-              目前发布后会先在本页面预览；接上 Cloudflare D1 后，就可以长期保存。
-            </p>
+            {status && <p className="text-xs font-bold text-[#772432]">{status}</p>}
           </div>
         </div>
       </div>
