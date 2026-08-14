@@ -57,6 +57,14 @@ const ensureTable = async (db: any) => {
 
 const cleanText = (value: FormDataEntryValue | null) => String(value ?? '').trim();
 
+const readJsonBody = async (request: Request) => {
+  try {
+    return await request.json();
+  } catch {
+    return null;
+  }
+};
+
 export const onRequestGet = async ({ env }: { env: Env }) => {
   try {
     const db = getDb(env);
@@ -141,6 +149,34 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       url: `/api/resource-photo?key=${encodeURIComponent(objectKey)}`,
     },
   }, { status: 201 });
+};
+
+export const onRequestPut = async ({ request, env }: { request: Request; env: Env }) => {
+  const adminError = requireAdmin(request, env);
+  if (adminError) return adminError;
+
+  let db: any;
+  try {
+    db = getDb(env);
+    await ensureTable(db);
+  } catch {
+    return json({ error: 'D1 还没有完成绑定' }, { status: 503 });
+  }
+
+  const body = await readJsonBody(request);
+  const ids = Array.isArray(body?.ids) ? body.ids.map((id: unknown) => String(id).trim()).filter(Boolean) : [];
+
+  if (!ids.length) {
+    return json({ error: '没有收到要保存的照片顺序' }, { status: 400 });
+  }
+
+  const statements = ids.map((id: string, index: number) =>
+    db.prepare('UPDATE resource_photos SET sort_order = ? WHERE id = ?').bind(index, id),
+  );
+
+  await db.batch(statements);
+
+  return json({ ok: true });
 };
 
 export const onRequestDelete = async ({ request, env }: { request: Request; env: Env }) => {
