@@ -33,22 +33,41 @@ const ensureTable = async (db: any) => {
   `).run();
 };
 
+const getDb = (env: Env) => {
+  if (!env.DB) {
+    throw new Error('D1 database is not bound');
+  }
+
+  return env.DB;
+};
+
 export const onRequestGet = async ({ env }: { env: Env }) => {
-  await ensureTable(env.DB);
+  try {
+    const db = getDb(env);
+    await ensureTable(db);
 
-  const { results } = await env.DB
-    .prepare(`
-      SELECT id, name, title, summary, message, created_at
-      FROM member_messages
-      ORDER BY created_at DESC
-    `)
-    .all<MemberMessage>();
+    const { results } = await db
+      .prepare(`
+        SELECT id, name, title, summary, message, created_at
+        FROM member_messages
+        ORDER BY created_at DESC
+      `)
+      .all<MemberMessage>();
 
-  return json({ messages: results ?? [] });
+    return json({ messages: results ?? [] });
+  } catch {
+    return json({ error: '留言数据库还没有完成绑定' }, { status: 503 });
+  }
 };
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
-  await ensureTable(env.DB);
+  let db: any;
+  try {
+    db = getDb(env);
+    await ensureTable(db);
+  } catch {
+    return json({ error: '留言数据库还没有完成绑定' }, { status: 503 });
+  }
 
   let body: Partial<MemberMessage>;
   try {
@@ -79,7 +98,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     created_at: new Date().toISOString(),
   };
 
-  await env.DB
+  await db
     .prepare(`
       INSERT INTO member_messages (id, name, title, summary, message, created_at)
       VALUES (?, ?, ?, ?, ?, ?)

@@ -40,16 +40,25 @@ const MemberColumn = () => {
 
   const TI_MAROON = '#772432';
 
+  const readJson = async (response: Response) => {
+    const contentType = response.headers.get('content-type') ?? '';
+    if (!contentType.includes('application/json')) {
+      throw new Error('留言接口还没有连接成功，请检查 Cloudflare Pages 的 D1 绑定。');
+    }
+
+    return response.json();
+  };
+
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const response = await fetch('/api/member-messages');
-        if (!response.ok) throw new Error('load failed');
-        const data = await response.json();
+        const data = await readJson(response);
+        if (!response.ok) throw new Error(data.error || '留言暂时无法载入');
         setMessages(data.messages?.length ? data.messages : initialMessages);
-      } catch {
+      } catch (error) {
         setMessages(initialMessages);
-        setStatus('留言数据库还没有完成绑定，当前显示示例内容。');
+        setStatus(error instanceof Error ? `${error.message} 当前显示示例内容。` : '当前显示示例内容。');
       } finally {
         setLoading(false);
       }
@@ -79,7 +88,7 @@ const MemberColumn = () => {
         }),
       });
 
-      const data = await response.json();
+      const data = await readJson(response);
       if (!response.ok) throw new Error(data.error || '发布失败');
 
       setMessages([data.message, ...messages.filter((item) => !item.id.startsWith('sample-'))]);
