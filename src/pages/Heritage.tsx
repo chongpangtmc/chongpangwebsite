@@ -48,6 +48,7 @@ const Heritage = () => {
   const [presidents, setPresidents] = useState<PresidentMessage[]>(fallbackPresidents);
   const [activeLevel, setActiveLevel] = useState(contestLevels[0]);
   const [activeType, setActiveType] = useState(contestTypes[0]);
+  const [activeYear, setActiveYear] = useState('');
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState('');
 
@@ -80,9 +81,25 @@ const Heritage = () => {
     loadRecords();
   }, []);
 
+  const awardYears = useMemo(
+    () => Array.from(new Set(awards.map((award) => award.year).filter(Boolean))).sort((a, b) => b.localeCompare(a)),
+    [awards],
+  );
+
+  useEffect(() => {
+    if (!awardYears.length) {
+      setActiveYear('');
+      return;
+    }
+
+    if (!activeYear || !awardYears.includes(activeYear)) {
+      setActiveYear(awardYears[0]);
+    }
+  }, [activeYear, awardYears]);
+
   const filteredAwards = useMemo(
-    () => awards.filter((award) => award.level === activeLevel && award.type === activeType),
-    [activeLevel, activeType, awards],
+    () => awards.filter((award) => award.level === activeLevel && award.type === activeType && (!activeYear || award.year === activeYear)),
+    [activeLevel, activeType, activeYear, awards],
   );
 
   return (
@@ -123,7 +140,7 @@ const Heritage = () => {
             ))}
           </div>
 
-          <div className="mb-8 grid grid-cols-2 gap-2 rounded-2xl bg-white p-2 shadow-sm sm:grid-cols-4">
+          <div className="mb-5 grid grid-cols-2 gap-2 rounded-2xl bg-white p-2 shadow-sm sm:grid-cols-4">
             {contestTypes.map((type) => (
               <button
                 key={type}
@@ -135,6 +152,24 @@ const Heritage = () => {
                 {type}
               </button>
             ))}
+          </div>
+
+          <div className="mb-8 rounded-2xl bg-white p-4 shadow-sm">
+            <label htmlFor="contest-year" className="mb-2 block text-xs font-black uppercase tracking-[0.25em] text-slate-400">
+              年度
+            </label>
+            <select
+              id="contest-year"
+              value={activeYear}
+              onChange={(event) => setActiveYear(event.target.value)}
+              className="w-full rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm font-black text-slate-700 outline-none transition focus:ring-2 focus:ring-[#772432]/10 sm:max-w-xs"
+            >
+              {awardYears.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="grid gap-4">
