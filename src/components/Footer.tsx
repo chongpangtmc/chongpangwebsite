@@ -75,10 +75,10 @@ const Footer = () => {
             href="https://www.facebook.com/cpmtmc" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-white/50 hover:text-[#F2DF74] transition-all hover:scale-110 flex items-center gap-1.5"
+            className="text-white/50 hover:text-[#F2DF74] transition-all hover:scale-110 flex items-center gap-2"
             title="Follow us on Facebook"
           >
-            <Facebook size={16} fill="currentColor" fillOpacity="0.2" />
+            <Facebook size={24} fill="currentColor" fillOpacity="0.2" />
             <span className="sm:hidden text-[10px]">Facebook</span>
           </a>
         </div>
@@ -90,18 +90,18 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* --- 技术支持：哈啰狮城网 --- */}
+        {/* --- 技术支持：哈啰人力 --- */}
         <div className="pt-6 border-t border-white/5">
           <p className="text-white/20 text-[11px] font-chinese">
             {t('本站技术支持由', 'Technical Support by ')}
             <a 
-              href="https://www.facebook.com/hellosgweb" 
+              href="https://hr.hellosg.org" 
               target="_blank" 
               rel="noopener noreferrer"
               style={{ color: TI_GOLD }}
               className="mx-1 opacity-70 hover:opacity-100 transition-opacity underline underline-offset-4"
             >
-              {t('哈啰狮城网', 'HelloSG.org')}
+              {t('哈啰人力', 'HelloSG HR')}
             </a>
             {t('提供', ' ')}
           </p>
