@@ -173,6 +173,11 @@ const Admin = () => {
       return;
     }
 
+    if (!newAward.year.trim()) {
+      setHeritageStatus('请先填写比赛年份。');
+      return;
+    }
+
     setSavingId('new-award');
     setHeritageStatus('');
 
@@ -255,6 +260,11 @@ const Admin = () => {
   const createPresident = async () => {
     if (!adminToken.trim()) {
       setHeritageStatus('请先输入后台密码。');
+      return;
+    }
+
+    if (!newPresident.term.trim() || !newPresident.name.trim() || !newPresident.message.trim()) {
+      setHeritageStatus('请填写届别、会长姓名和鼓励话语。');
       return;
     }
 
@@ -520,12 +530,14 @@ const Admin = () => {
           </div>
           <button
             onClick={createAward}
+            type="button"
             disabled={savingId === 'new-award'}
             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#004165] px-5 py-3 text-xs font-bold text-white disabled:opacity-60"
           >
             <PlusCircle className="h-4 w-4" />
-            新增比赛三甲
+            {savingId === 'new-award' ? '新增中...' : '新增比赛三甲'}
           </button>
+          {heritageStatus && <p className="mt-3 text-xs font-bold leading-5 text-[#772432]">{heritageStatus}</p>}
         </div>
 
         <SectionHeader title="比赛三甲管理" note="这些资料会显示在荣誉与传承页面上方的分类切换中。" />
@@ -587,12 +599,14 @@ const Admin = () => {
           />
           <button
             onClick={createPresident}
+            type="button"
             disabled={savingId === 'new-president'}
             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#772432] px-5 py-3 text-xs font-bold text-white disabled:opacity-60"
           >
             <PlusCircle className="h-4 w-4" />
-            新增会长感言
+            {savingId === 'new-president' ? '新增中...' : '新增会长感言'}
           </button>
+          {heritageStatus && <p className="mt-3 text-xs font-bold leading-5 text-[#772432]">{heritageStatus}</p>}
         </div>
 
         <SectionHeader title="历届会长感言管理" note="这些资料会显示在荣誉与传承页面下方。" />
