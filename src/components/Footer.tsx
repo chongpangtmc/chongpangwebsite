@@ -13,7 +13,7 @@ const Footer = () => {
   return (
     <footer 
       style={{ backgroundColor: TI_BLUE }} 
-      className="border-t border-[#00314a]/50 py-12 relative overflow-hidden"
+      className="border-t border-[#00314a]/50 py-8 relative overflow-hidden"
     >
       {/* 底部装饰：增加一个微弱的渐变层，让底部看起来更有厚度 */}
       <div 
@@ -31,7 +31,7 @@ const Footer = () => {
         </p>
         
         {/* 版权信息 */}
-        <p className="text-white/40 text-xs flex items-center justify-center gap-1.5 mb-6">
+        <p className="text-white/40 text-xs flex items-center justify-center gap-1.5 mb-4">
           © 2026 · {t('用', 'Made with')} 
           <Heart 
             className="w-3.5 h-3.5" 
@@ -43,7 +43,7 @@ const Footer = () => {
         </p>
 
         {/* --- 友情链接区域 --- */}
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-8 text-[11px] font-bold tracking-wider uppercase">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-5 text-[11px] font-bold tracking-wider uppercase">
           <a 
             href="https://www.d80toastmasters.org/" 
             target="_blank" 
@@ -84,26 +84,9 @@ const Footer = () => {
         </div>
 
         {/* 口号 */}
-        <div className="mb-8">
+        <div>
           <p className="text-white/30 text-[10px] font-medium uppercase tracking-[0.4em]">
             Where Leaders Are Made
-          </p>
-        </div>
-
-        {/* --- 技术支持：哈啰人力 --- */}
-        <div className="pt-6 border-t border-white/5">
-          <p className="text-white/20 text-[11px] font-chinese">
-            {t('本站技术支持由', 'Technical Support by ')}
-            <a 
-              href="https://hr.hellosg.org" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{ color: TI_GOLD }}
-              className="mx-1 opacity-70 hover:opacity-100 transition-opacity underline underline-offset-4"
-            >
-              {t('哈啰人力', 'HelloSG HR')}
-            </a>
-            {t('提供', ' ')}
           </p>
         </div>
       </div>
