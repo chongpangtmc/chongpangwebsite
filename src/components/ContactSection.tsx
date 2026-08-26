@@ -84,7 +84,7 @@ const ContactSection = () => {
     {
       icon: <Phone className="h-5 w-5" />,
       title: t('WhatsApp 联系', 'WhatsApp'),
-      value: t('付女士 9151 0357', 'Ms Fu 9151 0357'),
+      value: t('符女士 9151 0357', 'Ms Fu 9151 0357'),
       note: t('点击下方 WhatsApp 按钮可直接联系。', 'Use the WhatsApp button below to contact directly.'),
     },
   ];
@@ -136,7 +136,7 @@ const ContactSection = () => {
                 className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-6 py-4 text-sm font-black text-white shadow-lg shadow-green-200 transition hover:bg-[#1ebe5d]"
               >
                 <MessageCircle className="h-4 w-4" />
-                {t('WhatsApp 联系付女士', 'WhatsApp Ms Fu')}
+                {t('WhatsApp 联系符女士', 'WhatsApp Ms Fu')}
               </a>
             </div>
           </motion.div>
