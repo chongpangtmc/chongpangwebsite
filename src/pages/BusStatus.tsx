@@ -6,11 +6,12 @@ import { Input } from "@/components/ui/input";
 
 type Arrival = { service: string; minutes: number[]; load: string; type: string; wheelchair: boolean };
 type NearbyStop = { code: string; name: string; road: string; lat: number; lng: number; distance: number };
+type AddressResult = { address: string; postal: string; building: string; lat: number; lng: number };
 type Language = "zh" | "en";
 
 const copy = {
-  zh: { brand:"忠邦华语演讲会温馨服务", title:"查看您的巴士到站时间。", heading:"请输入您的巴士站编号", hint:"注：编号可以在巴士站牌上找到，例如：59719", input:"巴士站编号", placeholder:"输入五位数巴士站编号", go:"查询", location:"使用我的位置", locating:"正在查找附近巴士站…", nearby:"距离您最近的5个车站", locationDenied:"无法取得位置，请允许浏览器使用定位后重试。", locationError:"暂时无法查找附近巴士站，请稍后重试。", metres:"米", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的五位数巴士站编号", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"保存／分享二维码", saveHint:"如果手机没有弹出保存窗口，请长按下方图片并选择“存储到照片”。", filename:"巴士站" },
-  en: { brand:"A warm service from Chong Pang TMC", title:"Check your bus arrival time.", heading:"Enter your bus stop number", hint:"You can find it on the bus stop sign, for example: 59719", input:"Bus stop code", placeholder:"Enter 5-digit stop code", go:"Go", location:"Use my location", locating:"Finding nearby bus stops…", nearby:"5 nearest bus stops", locationDenied:"We could not access your location. Please allow location access and try again.", locationError:"Nearby bus stops are temporarily unavailable. Please try again.", metres:"m", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid 5-digit bus stop code", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Save / share QR code", saveHint:"If no save window appears, press and hold the image below and choose Save to Photos.", filename:"bus-stop" },
+  zh: { brand:"忠邦华语演讲会温馨服务", title:"查看您的巴士到站时间。", heading:"请输入巴士站编号、邮编或地址", hint:"例如：59719、760101 或 Yishun Ring Road", input:"巴士站编号、邮编或地址", placeholder:"输入站号、邮编或地址", go:"查询", searching:"正在搜索地址…", matches:"请选择正确的地址", noAddress:"找不到匹配地址，请尝试完整邮编或其他关键词。", searchError:"地址搜索暂时无法使用，请稍后重试。", location:"使用我的位置", locating:"正在查找附近巴士站…", nearby:"距离最近的5个车站", locationDenied:"无法取得位置，请允许浏览器使用定位后重试。", locationError:"暂时无法查找附近巴士站，请稍后重试。", metres:"米", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的巴士站编号、邮编或地址", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"保存／分享二维码", saveHint:"如果手机没有弹出保存窗口，请长按下方图片并选择“存储到照片”。", filename:"巴士站" },
+  en: { brand:"A warm service from Chong Pang TMC", title:"Check your bus arrival time.", heading:"Enter a bus stop, postal code or address", hint:"For example: 59719, 760101 or Yishun Ring Road", input:"Bus stop, postal code or address", placeholder:"Stop code, postal code or address", go:"Search", searching:"Searching addresses…", matches:"Choose the correct address", noAddress:"No matching address found. Try a full postal code or different keywords.", searchError:"Address search is temporarily unavailable. Please try again.", location:"Use my location", locating:"Finding nearby bus stops…", nearby:"5 nearest bus stops", locationDenied:"We could not access your location. Please allow location access and try again.", locationError:"Nearby bus stops are temporarily unavailable. Please try again.", metres:"m", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid bus stop, postal code or address", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Save / share QR code", saveHint:"If no save window appears, press and hold the image below and choose Save to Photos.", filename:"bus-stop" },
 } as const;
 
 const BusStatus = () => {
@@ -28,6 +29,8 @@ const BusStatus = () => {
   const [nearbyStops, setNearbyStops] = useState<NearbyStop[]>([]);
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState("");
+  const [addressResults, setAddressResults] = useState<AddressResult[]>([]);
+  const [searching, setSearching] = useState(false);
   const qrRef = useRef<HTMLCanvasElement>(null);
   const t = copy[language];
 
@@ -68,12 +71,33 @@ const BusStatus = () => {
   }, [activeStop]);
 
   const switchLanguage = (next: Language) => { setLanguage(next); localStorage.setItem("bus-status-language", next); };
-  const submit = (event: FormEvent) => { event.preventDefault(); setShowQr(false); void loadArrivals(stop); };
+  const submit = async (event: FormEvent) => {
+    event.preventDefault(); setShowQr(false); setNearbyStops([]); setAddressResults([]); setLocationMessage("");
+    const query = stop.trim();
+    if (/^\d{5}$/.test(query)) { void loadArrivals(query); return; }
+    if (query.length < 3) { setLocationMessage(t.invalid); return; }
+    setSearching(true);
+    try {
+      const response = await fetch(`/api/address-search?q=${encodeURIComponent(query)}`);
+      const data = await response.json() as { results?: AddressResult[] };
+      if (!response.ok) throw new Error();
+      setAddressResults(data.results || []);
+      if (!data.results?.length) setLocationMessage(t.noAddress);
+    } catch { setLocationMessage(t.searchError); }
+    finally { setSearching(false); }
+  };
   const distanceInMetres = (lat1: number, lng1: number, lat2: number, lng2: number) => {
     const toRad = (value: number) => value * Math.PI / 180;
     const dLat = toRad(lat2 - lat1); const dLng = toRad(lng2 - lng1);
     const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
     return Math.round(6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+  };
+  const findNearbyStops = async (lat: number, lng: number) => {
+    const response = await fetch("/api/bus-stops");
+    const data = await response.json() as { stops?: Omit<NearbyStop, "distance">[] };
+    if (!response.ok || !data.stops) throw new Error();
+    const nearest = data.stops.map((item) => ({ ...item, distance: distanceInMetres(lat, lng, item.lat, item.lng) })).sort((a, b) => a.distance - b.distance).slice(0, 5);
+    setNearbyStops(nearest);
   };
   const useMyLocation = () => {
     setLocationMessage(""); setNearbyStops([]);
@@ -81,14 +105,16 @@ const BusStatus = () => {
     setLocating(true);
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       try {
-        const response = await fetch("/api/bus-stops");
-        const data = await response.json() as { stops?: Omit<NearbyStop, "distance">[] };
-        if (!response.ok || !data.stops) throw new Error();
-        const nearest = data.stops.map((item) => ({ ...item, distance: distanceInMetres(coords.latitude, coords.longitude, item.lat, item.lng) })).sort((a, b) => a.distance - b.distance).slice(0, 5);
-        setNearbyStops(nearest);
+        await findNearbyStops(coords.latitude, coords.longitude);
       } catch { setLocationMessage(t.locationError); }
       finally { setLocating(false); }
     }, () => { setLocationMessage(t.locationDenied); setLocating(false); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+  };
+  const selectAddress = async (item: AddressResult) => {
+    setStop(item.postal || item.address); setAddressResults([]); setLocationMessage(""); setLocating(true);
+    try { await findNearbyStops(item.lat, item.lng); }
+    catch { setLocationMessage(t.locationError); }
+    finally { setLocating(false); }
   };
   const selectNearbyStop = (item: NearbyStop) => { setStop(item.code); setNearbyStops([]); setShowQr(false); void loadArrivals(item.code); };
   const qrUrl = `${location.origin}/bus_status?stop=${activeStop}`;
@@ -118,9 +144,10 @@ const BusStatus = () => {
     <div className="mx-auto max-w-2xl px-4 pb-12 pt-5 sm:px-5">
       <section className="rounded-[28px] bg-[#092f2b] p-5 text-white shadow-[0_20px_50px_rgba(9,38,35,.16)] sm:p-7">
         <h1 className="text-2xl font-bold tracking-[-.03em] sm:text-3xl">{t.heading}</h1><p className="mt-2 text-sm text-emerald-100">{t.hint}</p>
-        <form onSubmit={submit} className="mt-6 flex gap-2"><div className="relative min-w-0 flex-1"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={19}/><Input aria-label={t.input} inputMode="numeric" maxLength={5} value={stop} onChange={e => setStop(e.target.value.replace(/\D/g,""))} className="h-12 rounded-2xl border-0 bg-white pl-11 text-base font-semibold text-slate-950" placeholder={t.placeholder}/></div><Button className="h-12 rounded-2xl bg-[#c9f45b] px-5 font-bold text-[#092f2b] hover:bg-lime-300">{t.go}</Button></form>
+        <form onSubmit={submit} className="mt-6 flex gap-2"><div className="relative min-w-0 flex-1"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={19}/><Input aria-label={t.input} maxLength={100} value={stop} onChange={e => setStop(e.target.value)} className="h-12 rounded-2xl border-0 bg-white pl-11 text-base font-semibold text-slate-950" placeholder={t.placeholder}/></div><Button disabled={searching} className="h-12 rounded-2xl bg-[#c9f45b] px-5 font-bold text-[#092f2b] hover:bg-lime-300 disabled:opacity-60">{searching ? t.searching : t.go}</Button></form>
         <button type="button" disabled={locating} onClick={useMyLocation} className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-100 disabled:opacity-60"><LocateFixed className={locating ? "animate-pulse" : ""} size={17}/> {locating ? t.locating : t.location}</button>
         {locationMessage && <p className="mt-3 rounded-xl bg-amber-100 px-3 py-2 text-xs text-amber-950">{locationMessage}</p>}
+        {addressResults.length > 0 && <div className="mt-4 overflow-hidden rounded-2xl bg-white text-[#092623]"><p className="border-b border-slate-100 px-4 py-3 text-sm font-bold">{t.matches}</p>{addressResults.map((item, index) => <button type="button" key={`${item.address}-${index}`} onClick={() => void selectAddress(item)} className="block w-full border-b border-slate-100 px-4 py-3 text-left last:border-0 hover:bg-emerald-50"><strong className="text-sm">{item.address}</strong>{item.building && <span className="mt-0.5 block text-xs text-slate-500">{item.building}</span>}</button>)}</div>}
         {nearbyStops.length > 0 && <div className="mt-4 overflow-hidden rounded-2xl bg-white text-[#092623]"><p className="border-b border-slate-100 px-4 py-3 text-sm font-bold">{t.nearby}</p>{nearbyStops.map((item) => <button type="button" key={item.code} onClick={() => selectNearbyStop(item)} className="flex w-full items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 text-left last:border-0 hover:bg-emerald-50"><span className="min-w-0"><strong className="text-sm">{item.code} · {item.name}</strong><span className="mt-0.5 block truncate text-xs text-slate-500">{item.road}</span></span><span className="shrink-0 rounded-full bg-[#e8f8bd] px-2.5 py-1 text-xs font-bold">{item.distance} {t.metres}</span></button>)}</div>}
       </section>
 
