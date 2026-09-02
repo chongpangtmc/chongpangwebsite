@@ -18,6 +18,7 @@ import ToolsPage from "./pages/ToolsPage";
 import Contact from "./pages/Contact"; 
 import Admin from "./pages/Admin"; 
 import NotFound from "./pages/NotFound";
+import BusStatus from "./pages/BusStatus";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -30,11 +31,14 @@ const ScrollToTop = () => {
 };
 
 const AppLayout = () => {
+  const { pathname } = useLocation();
+  const isBusStatus = pathname === "/bus_status";
+
   return (
     <>
       <ScrollToTop />
 
-      <Navbar />
+      {!isBusStatus && <Navbar />}
 
       <main className="min-h-screen">
         <Routes>
@@ -46,11 +50,12 @@ const AppLayout = () => {
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/bus_status" element={<BusStatus />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
-      <Footer />
+      {!isBusStatus && <Footer />}
     </>
   );
 };
