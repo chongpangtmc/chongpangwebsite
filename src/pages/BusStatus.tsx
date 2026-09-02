@@ -8,14 +8,15 @@ type Arrival = { service: string; minutes: number[]; load: string; type: string;
 type Language = "zh" | "en";
 
 const copy = {
-  zh: { title:"巴士到站时间", live:"实时", eyebrow:"我的巴士在哪里？", heading:"查看巴士到站时间", input:"巴士站编号", placeholder:"输入五位数巴士站编号", go:"查询", location:"使用我的位置", locationLater:"附近车站定位功能将在下一阶段启用", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的五位数巴士站编号", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"下载二维码", filename:"巴士站" },
-  en: { title:"Bus Arrival", live:"Live", eyebrow:"Where is my bus?", heading:"Arrivals at your stop", input:"Bus stop code", placeholder:"Enter 5-digit stop code", go:"Go", location:"Use my location", locationLater:"Nearby-stop location will be available in a future update", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid 5-digit bus stop code", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Download QR code", filename:"bus-stop" },
+  zh: { brand:"忠邦华语演讲会温馨服务", title:"查看您的巴士到站时间。", heading:"请输入您的巴士站编号", hint:"注：编号可以在巴士站牌上找到，例如：59719", input:"巴士站编号", placeholder:"输入五位数巴士站编号", go:"查询", location:"使用我的位置", locationLater:"附近车站定位功能将在下一阶段启用", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的五位数巴士站编号", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"下载二维码", filename:"巴士站" },
+  en: { brand:"A warm service from Chong Pang TMC", title:"Check your bus arrival time.", heading:"Enter your bus stop number", hint:"You can find it on the bus stop sign, for example: 59719", input:"Bus stop code", placeholder:"Enter 5-digit stop code", go:"Go", location:"Use my location", locationLater:"Nearby-stop location will be available in a future update", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid 5-digit bus stop code", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Download QR code", filename:"bus-stop" },
 } as const;
 
 const BusStatus = () => {
   const [language, setLanguage] = useState<Language>(() => localStorage.getItem("bus-status-language") === "en" ? "en" : "zh");
   const [stop, setStop] = useState("59009");
   const [activeStop, setActiveStop] = useState("59009");
+  const [stopName, setStopName] = useState("");
   const [arrivals, setArrivals] = useState<Arrival[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<"loading"|"success"|"invalid"|"error">("loading");
@@ -51,6 +52,16 @@ const BusStatus = () => {
     return () => clearInterval(timer);
   }, [activeStop, loadArrivals]);
 
+  useEffect(() => {
+    let cancelled = false;
+    setStopName("");
+    fetch(`/api/bus-stop?stop=${activeStop}`)
+      .then((response) => response.ok ? response.json() : null)
+      .then((data: { name?: string } | null) => { if (!cancelled) setStopName(data?.name || ""); })
+      .catch(() => undefined);
+    return () => { cancelled = true; };
+  }, [activeStop]);
+
   const switchLanguage = (next: Language) => { setLanguage(next); localStorage.setItem("bus-status-language", next); };
   const submit = (event: FormEvent) => { event.preventDefault(); setShowQr(false); void loadArrivals(stop); };
   const qrUrl = `${location.origin}/bus_status?stop=${activeStop}`;
@@ -62,18 +73,18 @@ const BusStatus = () => {
 
   return <main className="min-h-screen bg-[#f2f6ed] text-[#092623] font-body">
     <header className="border-b border-emerald-950/10 bg-[#092f2b] text-white"><div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-5 py-4">
-      <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#c9f45b] text-[#092f2b]"><BusFront size={22}/></span><div><p className="text-[11px] font-bold uppercase tracking-[.16em] text-emerald-200">Chong Pang TMC</p><p className="font-semibold">{t.title}</p></div></div>
+      <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#c9f45b] text-[#092f2b]"><BusFront size={22}/></span><div><p className="text-[11px] font-bold tracking-[.08em] text-emerald-200">{t.brand}</p><p className="font-semibold">{t.title}</p></div></div>
       <div className="flex rounded-full bg-white/10 p-1 text-xs font-bold" aria-label="Language"><button onClick={() => switchLanguage("zh")} className={`rounded-full px-2.5 py-1 ${language === "zh" ? "bg-white text-[#092f2b]" : "text-emerald-100"}`}>中文</button><button onClick={() => switchLanguage("en")} className={`rounded-full px-2.5 py-1 ${language === "en" ? "bg-white text-[#092f2b]" : "text-emerald-100"}`}>EN</button></div>
     </div></header>
 
     <div className="mx-auto max-w-2xl px-4 pb-12 pt-5 sm:px-5">
       <section className="rounded-[28px] bg-[#092f2b] p-5 text-white shadow-[0_20px_50px_rgba(9,38,35,.16)] sm:p-7">
-        <p className="text-sm font-medium text-emerald-200">{t.eyebrow}</p><h1 className="mt-1 text-3xl font-bold tracking-[-.04em] sm:text-4xl">{t.heading}</h1>
+        <h1 className="text-2xl font-bold tracking-[-.03em] sm:text-3xl">{t.heading}</h1><p className="mt-2 text-sm text-emerald-100">{t.hint}</p>
         <form onSubmit={submit} className="mt-6 flex gap-2"><div className="relative min-w-0 flex-1"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={19}/><Input aria-label={t.input} inputMode="numeric" maxLength={5} value={stop} onChange={e => setStop(e.target.value.replace(/\D/g,""))} className="h-12 rounded-2xl border-0 bg-white pl-11 text-base font-semibold text-slate-950" placeholder={t.placeholder}/></div><Button className="h-12 rounded-2xl bg-[#c9f45b] px-5 font-bold text-[#092f2b] hover:bg-lime-300">{t.go}</Button></form>
         <button type="button" onClick={() => { setMessage(t.locationLater); setStatus("error"); }} className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-100"><LocateFixed size={17}/> {t.location}</button>
       </section>
 
-      <section className="mt-7"><div className="mb-4 flex items-end justify-between gap-4 px-1"><div><p className="text-xs font-bold uppercase tracking-[.13em] text-emerald-700">{t.arrivals}</p><h2 className="mt-1 text-xl font-bold">{t.stop} {activeStop}</h2></div><button disabled={loading} onClick={() => void loadArrivals(activeStop)} className="flex items-center gap-1.5 rounded-full border border-emerald-950/10 bg-white px-3 py-2 text-xs font-semibold shadow-sm disabled:opacity-50"><RefreshCw className={loading ? "animate-spin" : ""} size={14}/> {t.refresh}</button></div>
+      <section className="mt-7"><div className="mb-4 flex items-end justify-between gap-4 px-1"><div><p className="text-xs font-bold uppercase tracking-[.13em] text-emerald-700">{t.arrivals}</p><h2 className="mt-1 text-xl font-bold">{t.stop} {activeStop}{stopName ? ` · ${stopName}` : ""}</h2></div><button disabled={loading} onClick={() => void loadArrivals(activeStop)} className="flex items-center gap-1.5 rounded-full border border-emerald-950/10 bg-white px-3 py-2 text-xs font-semibold shadow-sm disabled:opacity-50"><RefreshCw className={loading ? "animate-spin" : ""} size={14}/> {t.refresh}</button></div>
         <div className={`mb-3 flex items-start gap-2 rounded-2xl px-3.5 py-3 text-xs font-medium ${status === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-900" : "border border-amber-200 bg-amber-50 text-amber-900"}`}><AlertTriangle className="mt-0.5 shrink-0" size={15}/><span>{notice}</span></div>
         <div className="space-y-3">{!loading && arrivals.length === 0 && <div className="rounded-[24px] border border-emerald-950/10 bg-white p-8 text-center text-sm text-slate-500">{t.empty}</div>}{arrivals.map(bus => <article key={bus.service} className="rounded-[24px] border border-emerald-950/10 bg-white p-4 shadow-[0_8px_30px_rgba(9,38,35,.06)] sm:p-5"><div className="flex items-center gap-4"><div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[#c9f45b] text-xl font-black">{bus.service}</div><div className="min-w-0 flex-1"><div className="flex items-baseline justify-between gap-2"><span className="text-xs font-semibold text-slate-500">{t.next}</span><span className="text-xs text-slate-400">{bus.type}</span></div><div className="mt-1 flex items-baseline gap-2"><span className="text-3xl font-black tracking-[-.05em]">{bus.minutes[0] === 0 ? t.arriving : bus.minutes[0]}</span>{bus.minutes[0] !== 0 && <span className="font-semibold text-slate-500">{t.min}</span>}<span className="ml-auto text-sm font-bold text-emerald-700">{bus.minutes.slice(1).join(" · ")} {t.min}</span></div></div></div><div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs"><span className="font-semibold text-emerald-700">● {bus.load}</span><span className="text-slate-400">{bus.wheelchair ? t.wheelchair : ""}</span></div></article>)}</div>
         <button onClick={() => setShowQr(v => !v)} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-950/10 bg-white px-4 py-3 text-sm font-bold shadow-sm"><QrCode size={18}/> {t.qrButton}</button>
