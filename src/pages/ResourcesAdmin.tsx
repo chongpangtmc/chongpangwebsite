@@ -43,6 +43,7 @@ const ResourcesAdmin = () => {
   const [savingOrder, setSavingOrder] = useState(false);
   const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
   const [status, setStatus] = useState('');
+  const [uploadProgress, setUploadProgress] = useState('');
   const [manageStatus, setManageStatus] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
   const [existingPhotos, setExistingPhotos] = useState<ResourcePhoto[]>([]);
@@ -101,6 +102,11 @@ const ResourcesAdmin = () => {
   }, [albumOptions, selectedAlbumKey]);
 
   const compressImage = (file: File): Promise<File> => new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) {
+      reject(new Error('只能上传 JPG、PNG、WebP 等图片文件。'));
+      return;
+    }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event) => {
@@ -110,10 +116,11 @@ const ResourcesAdmin = () => {
         const canvas = document.createElement('canvas');
         let width = image.width;
         let height = image.height;
-        const maxWidth = 1600;
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
+        const maxSide = 1600;
+        const scale = Math.min(1, maxSide / Math.max(width, height));
+        if (scale < 1) {
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
         }
         canvas.width = width;
         canvas.height = height;
@@ -126,9 +133,9 @@ const ResourcesAdmin = () => {
           resolve(new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', { type: 'image/jpeg' }));
         }, 'image/jpeg', 0.74);
       };
-      image.onerror = reject;
+      image.onerror = () => reject(new Error('图片无法读取，可能是 HEIC 格式、文件损坏，或照片尺寸过大。'));
     };
-    reader.onerror = reject;
+    reader.onerror = () => reject(new Error('图片读取失败，请换成 JPG/PNG 后再上传。'));
   });
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,7 +162,7 @@ const ResourcesAdmin = () => {
   const readJson = async (response: Response) => {
     const contentType = response.headers.get('content-type') ?? '';
     if (!contentType.includes('application/json')) {
-      throw new Error('上传接口还没有连接成功，请检查 Cloudflare Pages 的 D1 和 R2 绑定。');
+      throw new Error(`上传接口返回异常（HTTP ${response.status}），请检查 Cloudflare Pages 的 D1/R2 绑定或稍后重试。`);
     }
     return response.json();
   };
@@ -200,11 +207,15 @@ const ResourcesAdmin = () => {
 
     setUploading(true);
     setStatus('');
+    setUploadProgress('');
 
     try {
       for (let index = 0; index < selectedFiles.length; index += 1) {
         const item = selectedFiles[index];
-        const compressedFile = await compressImage(item.file);
+        setUploadProgress(`正在处理第 ${index + 1} / ${selectedFiles.length} 张：${item.file.name}`);
+        const compressedFile = await compressImage(item.file).catch((error) => {
+          throw new Error(`第 ${index + 1} 张「${item.file.name}」压缩失败：${error instanceof Error ? error.message : '请换成 JPG/PNG 后再试'}`);
+        });
         const formData = new FormData();
         formData.append('year', form.year);
         formData.append('category', form.category);
@@ -212,19 +223,21 @@ const ResourcesAdmin = () => {
         formData.append('sort_order', String(index));
         formData.append('file', compressedFile);
 
+        setUploadProgress(`正在上传第 ${index + 1} / ${selectedFiles.length} 张：${item.file.name}`);
         const response = await fetch('/api/resource-photos', {
           method: 'POST',
           headers: { 'x-admin-token': adminToken.trim() },
           body: formData,
         });
         const data = await readJson(response);
-        if (!response.ok) throw new Error(data.error || '上传失败');
+        if (!response.ok) throw new Error(`第 ${index + 1} 张「${item.file.name}」上传失败：${data.error || `HTTP ${response.status}`}`);
       }
 
       selectedFiles.forEach((item) => URL.revokeObjectURL(item.preview));
       setSelectedFiles([]);
       setForm((value) => ({ ...value, title: '' }));
       setShowSuccessOverlay(true);
+      setUploadProgress('');
       await loadExistingPhotos();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : '上传失败');
@@ -392,6 +405,7 @@ const ResourcesAdmin = () => {
             </div>
           </section>
 
+          {uploadProgress && <div className="rounded-2xl border border-[#772432]/10 bg-[#772432]/5 p-4 text-sm font-bold text-[#772432]">{uploadProgress}</div>}
           {status && <div className="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-bold text-red-600">{status}</div>}
 
           <button
