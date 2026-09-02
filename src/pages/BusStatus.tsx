@@ -85,7 +85,7 @@ const BusStatus = () => {
 
   return <main className="min-h-screen bg-[#f2f6ed] text-[#092623] font-body">
     <header className="border-b border-emerald-950/10 bg-[#092f2b] text-white"><div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-5 py-4">
-      <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#c9f45b] text-[#092f2b]"><BusFront size={22}/></span><div><p className="text-[11px] font-bold tracking-[.08em] text-emerald-200">{t.brand}</p><p className="font-semibold">{t.title}</p></div></div>
+      <div className="flex min-w-0 items-center gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#c9f45b] text-[#092f2b]"><BusFront size={22}/></span><div className="min-w-0"><div className="flex flex-wrap items-baseline gap-x-2"><p className="text-sm font-black tracking-[.03em] text-[#d9ff73] sm:text-base">{t.brand}</p><a href="https://chongpangtmc.hellosg.org/" className="text-[10px] font-medium text-emerald-100 underline decoration-emerald-300/60 underline-offset-2 hover:text-white sm:text-xs">chongpangtmc.hellosg.org</a></div><p className="mt-0.5 text-sm font-semibold sm:text-base">{t.title}</p></div></div>
       <div className="flex rounded-full bg-white/10 p-1 text-xs font-bold" aria-label="Language"><button onClick={() => switchLanguage("zh")} className={`rounded-full px-2.5 py-1 ${language === "zh" ? "bg-white text-[#092f2b]" : "text-emerald-100"}`}>中文</button><button onClick={() => switchLanguage("en")} className={`rounded-full px-2.5 py-1 ${language === "en" ? "bg-white text-[#092f2b]" : "text-emerald-100"}`}>EN</button></div>
     </div></header>
 
