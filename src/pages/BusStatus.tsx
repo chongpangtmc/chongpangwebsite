@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 type Arrival = { service: string; minutes: number[]; load: string; type: string; wheelchair: boolean };
+type NearbyStop = { code: string; name: string; road: string; lat: number; lng: number; distance: number };
 type Language = "zh" | "en";
 
 const copy = {
-  zh: { brand:"忠邦华语演讲会温馨服务", title:"查看您的巴士到站时间。", heading:"请输入您的巴士站编号", hint:"注：编号可以在巴士站牌上找到，例如：59719", input:"巴士站编号", placeholder:"输入五位数巴士站编号", go:"查询", location:"使用我的位置", locationLater:"附近车站定位功能将在下一阶段启用", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的五位数巴士站编号", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"保存／分享二维码", saveHint:"如果手机没有弹出保存窗口，请长按下方图片并选择“存储到照片”。", filename:"巴士站" },
-  en: { brand:"A warm service from Chong Pang TMC", title:"Check your bus arrival time.", heading:"Enter your bus stop number", hint:"You can find it on the bus stop sign, for example: 59719", input:"Bus stop code", placeholder:"Enter 5-digit stop code", go:"Go", location:"Use my location", locationLater:"Nearby-stop location will be available in a future update", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid 5-digit bus stop code", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Save / share QR code", saveHint:"If no save window appears, press and hold the image below and choose Save to Photos.", filename:"bus-stop" },
+  zh: { brand:"忠邦华语演讲会温馨服务", title:"查看您的巴士到站时间。", heading:"请输入您的巴士站编号", hint:"注：编号可以在巴士站牌上找到，例如：59719", input:"巴士站编号", placeholder:"输入五位数巴士站编号", go:"查询", location:"使用我的位置", locating:"正在查找附近巴士站…", nearby:"距离您最近的5个车站", locationDenied:"无法取得位置，请允许浏览器使用定位后重试。", locationError:"暂时无法查找附近巴士站，请稍后重试。", metres:"米", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的五位数巴士站编号", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"保存／分享二维码", saveHint:"如果手机没有弹出保存窗口，请长按下方图片并选择“存储到照片”。", filename:"巴士站" },
+  en: { brand:"A warm service from Chong Pang TMC", title:"Check your bus arrival time.", heading:"Enter your bus stop number", hint:"You can find it on the bus stop sign, for example: 59719", input:"Bus stop code", placeholder:"Enter 5-digit stop code", go:"Go", location:"Use my location", locating:"Finding nearby bus stops…", nearby:"5 nearest bus stops", locationDenied:"We could not access your location. Please allow location access and try again.", locationError:"Nearby bus stops are temporarily unavailable. Please try again.", metres:"m", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid 5-digit bus stop code", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Save / share QR code", saveHint:"If no save window appears, press and hold the image below and choose Save to Photos.", filename:"bus-stop" },
 } as const;
 
 const BusStatus = () => {
@@ -24,6 +25,9 @@ const BusStatus = () => {
   const [updated, setUpdated] = useState("--");
   const [showQr, setShowQr] = useState(false);
   const [qrImage, setQrImage] = useState("");
+  const [nearbyStops, setNearbyStops] = useState<NearbyStop[]>([]);
+  const [locating, setLocating] = useState(false);
+  const [locationMessage, setLocationMessage] = useState("");
   const qrRef = useRef<HTMLCanvasElement>(null);
   const t = copy[language];
 
@@ -65,6 +69,28 @@ const BusStatus = () => {
 
   const switchLanguage = (next: Language) => { setLanguage(next); localStorage.setItem("bus-status-language", next); };
   const submit = (event: FormEvent) => { event.preventDefault(); setShowQr(false); void loadArrivals(stop); };
+  const distanceInMetres = (lat1: number, lng1: number, lat2: number, lng2: number) => {
+    const toRad = (value: number) => value * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1); const dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+    return Math.round(6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+  };
+  const useMyLocation = () => {
+    setLocationMessage(""); setNearbyStops([]);
+    if (!navigator.geolocation) { setLocationMessage(t.locationDenied); return; }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      try {
+        const response = await fetch("/api/bus-stops");
+        const data = await response.json() as { stops?: Omit<NearbyStop, "distance">[] };
+        if (!response.ok || !data.stops) throw new Error();
+        const nearest = data.stops.map((item) => ({ ...item, distance: distanceInMetres(coords.latitude, coords.longitude, item.lat, item.lng) })).sort((a, b) => a.distance - b.distance).slice(0, 5);
+        setNearbyStops(nearest);
+      } catch { setLocationMessage(t.locationError); }
+      finally { setLocating(false); }
+    }, () => { setLocationMessage(t.locationDenied); setLocating(false); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+  };
+  const selectNearbyStop = (item: NearbyStop) => { setStop(item.code); setNearbyStops([]); setShowQr(false); void loadArrivals(item.code); };
   const qrUrl = `${location.origin}/bus_status?stop=${activeStop}`;
   const downloadQr = async () => {
     if (!qrRef.current) return;
@@ -93,7 +119,9 @@ const BusStatus = () => {
       <section className="rounded-[28px] bg-[#092f2b] p-5 text-white shadow-[0_20px_50px_rgba(9,38,35,.16)] sm:p-7">
         <h1 className="text-2xl font-bold tracking-[-.03em] sm:text-3xl">{t.heading}</h1><p className="mt-2 text-sm text-emerald-100">{t.hint}</p>
         <form onSubmit={submit} className="mt-6 flex gap-2"><div className="relative min-w-0 flex-1"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={19}/><Input aria-label={t.input} inputMode="numeric" maxLength={5} value={stop} onChange={e => setStop(e.target.value.replace(/\D/g,""))} className="h-12 rounded-2xl border-0 bg-white pl-11 text-base font-semibold text-slate-950" placeholder={t.placeholder}/></div><Button className="h-12 rounded-2xl bg-[#c9f45b] px-5 font-bold text-[#092f2b] hover:bg-lime-300">{t.go}</Button></form>
-        <button type="button" onClick={() => { setMessage(t.locationLater); setStatus("error"); }} className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-100"><LocateFixed size={17}/> {t.location}</button>
+        <button type="button" disabled={locating} onClick={useMyLocation} className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-100 disabled:opacity-60"><LocateFixed className={locating ? "animate-pulse" : ""} size={17}/> {locating ? t.locating : t.location}</button>
+        {locationMessage && <p className="mt-3 rounded-xl bg-amber-100 px-3 py-2 text-xs text-amber-950">{locationMessage}</p>}
+        {nearbyStops.length > 0 && <div className="mt-4 overflow-hidden rounded-2xl bg-white text-[#092623]"><p className="border-b border-slate-100 px-4 py-3 text-sm font-bold">{t.nearby}</p>{nearbyStops.map((item) => <button type="button" key={item.code} onClick={() => selectNearbyStop(item)} className="flex w-full items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 text-left last:border-0 hover:bg-emerald-50"><span className="min-w-0"><strong className="text-sm">{item.code} · {item.name}</strong><span className="mt-0.5 block truncate text-xs text-slate-500">{item.road}</span></span><span className="shrink-0 rounded-full bg-[#e8f8bd] px-2.5 py-1 text-xs font-bold">{item.distance} {t.metres}</span></button>)}</div>}
       </section>
 
       <section className="mt-7"><div className="mb-4 flex items-end justify-between gap-4 px-1"><div><p className="text-xs font-bold uppercase tracking-[.13em] text-emerald-700">{t.arrivals}</p><h2 className="mt-1 text-xl font-bold">{t.stop} {activeStop}{stopName ? ` · ${stopName}` : ""}</h2></div><button disabled={loading} onClick={() => void loadArrivals(activeStop)} className="flex items-center gap-1.5 rounded-full border border-emerald-950/10 bg-white px-3 py-2 text-xs font-semibold shadow-sm disabled:opacity-50"><RefreshCw className={loading ? "animate-spin" : ""} size={14}/> {t.refresh}</button></div>
