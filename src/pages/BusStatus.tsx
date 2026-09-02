@@ -8,8 +8,8 @@ type Arrival = { service: string; minutes: number[]; load: string; type: string;
 type Language = "zh" | "en";
 
 const copy = {
-  zh: { brand:"忠邦华语演讲会温馨服务", title:"查看您的巴士到站时间。", heading:"请输入您的巴士站编号", hint:"注：编号可以在巴士站牌上找到，例如：59719", input:"巴士站编号", placeholder:"输入五位数巴士站编号", go:"查询", location:"使用我的位置", locationLater:"附近车站定位功能将在下一阶段启用", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的五位数巴士站编号", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"下载二维码", filename:"巴士站" },
-  en: { brand:"A warm service from Chong Pang TMC", title:"Check your bus arrival time.", heading:"Enter your bus stop number", hint:"You can find it on the bus stop sign, for example: 59719", input:"Bus stop code", placeholder:"Enter 5-digit stop code", go:"Go", location:"Use my location", locationLater:"Nearby-stop location will be available in a future update", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid 5-digit bus stop code", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Download QR code", filename:"bus-stop" },
+  zh: { brand:"忠邦华语演讲会温馨服务", title:"查看您的巴士到站时间。", heading:"请输入您的巴士站编号", hint:"注：编号可以在巴士站牌上找到，例如：59719", input:"巴士站编号", placeholder:"输入五位数巴士站编号", go:"查询", location:"使用我的位置", locationLater:"附近车站定位功能将在下一阶段启用", arrivals:"实时到站", stop:"巴士站", refresh:"刷新", loading:"正在读取陆交局实时数据", success:"数据来自陆交局 DataMall，每20秒自动更新", invalid:"请输入正确的五位数巴士站编号", error:"暂时无法读取巴士到站数据", empty:"这个车站目前没有可用的巴士到站资料", next:"下一班", arriving:"即将到站", min:"分钟", wheelchair:"轮椅可通行", updated:"更新时间", estimate:"到站时间仅供参考", qrButton:"生成本站二维码", qrTitle:"本站专属二维码", qrHelp:"乘客扫码后将直接打开这个巴士站的实时到站页面。", download:"保存／分享二维码", saveHint:"如果手机没有弹出保存窗口，请长按下方图片并选择“存储到照片”。", filename:"巴士站" },
+  en: { brand:"A warm service from Chong Pang TMC", title:"Check your bus arrival time.", heading:"Enter your bus stop number", hint:"You can find it on the bus stop sign, for example: 59719", input:"Bus stop code", placeholder:"Enter 5-digit stop code", go:"Go", location:"Use my location", locationLater:"Nearby-stop location will be available in a future update", arrivals:"Live arrivals", stop:"Bus stop", refresh:"Refresh", loading:"Loading real-time data from LTA", success:"Data from LTA DataMall · refreshes every 20 seconds", invalid:"Enter a valid 5-digit bus stop code", error:"Bus arrival data is temporarily unavailable", empty:"No bus arrival information is currently available for this stop", next:"Next bus", arriving:"Arr", min:"min", wheelchair:"Wheelchair accessible", updated:"Updated", estimate:"Times are estimates", qrButton:"Generate stop QR code", qrTitle:"QR code for this stop", qrHelp:"Passengers can scan this code to open live arrivals for this bus stop.", download:"Save / share QR code", saveHint:"If no save window appears, press and hold the image below and choose Save to Photos.", filename:"bus-stop" },
 } as const;
 
 const BusStatus = () => {
@@ -23,6 +23,7 @@ const BusStatus = () => {
   const [message, setMessage] = useState("");
   const [updated, setUpdated] = useState("--");
   const [showQr, setShowQr] = useState(false);
+  const [qrImage, setQrImage] = useState("");
   const qrRef = useRef<HTMLCanvasElement>(null);
   const t = copy[language];
 
@@ -65,9 +66,20 @@ const BusStatus = () => {
   const switchLanguage = (next: Language) => { setLanguage(next); localStorage.setItem("bus-status-language", next); };
   const submit = (event: FormEvent) => { event.preventDefault(); setShowQr(false); void loadArrivals(stop); };
   const qrUrl = `${location.origin}/bus_status?stop=${activeStop}`;
-  const downloadQr = () => {
+  const downloadQr = async () => {
     if (!qrRef.current) return;
-    const link = document.createElement("a"); link.download = `${t.filename}-${activeStop}-qr.png`; link.href = qrRef.current.toDataURL("image/png"); link.click();
+    const dataUrl = qrRef.current.toDataURL("image/png");
+    setQrImage(dataUrl);
+    const blob = await new Promise<Blob | null>((resolve) => qrRef.current?.toBlob(resolve, "image/png"));
+    const filename = `${t.filename}-${activeStop}-qr.png`;
+    if (blob) {
+      const file = new File([blob], filename, { type: "image/png" });
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: `${t.stop} ${activeStop}` }); return; }
+        catch (error) { if (error instanceof DOMException && error.name === "AbortError") return; }
+      }
+    }
+    const link = document.createElement("a"); link.download = filename; link.href = dataUrl; link.click();
   };
   const notice = status === "success" ? t.success : status === "invalid" ? t.invalid : status === "error" ? (message || t.error) : t.loading;
 
@@ -88,7 +100,7 @@ const BusStatus = () => {
         <div className={`mb-3 flex items-start gap-2 rounded-2xl px-3.5 py-3 text-xs font-medium ${status === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-900" : "border border-amber-200 bg-amber-50 text-amber-900"}`}><AlertTriangle className="mt-0.5 shrink-0" size={15}/><span>{notice}</span></div>
         <div className="space-y-3">{!loading && arrivals.length === 0 && <div className="rounded-[24px] border border-emerald-950/10 bg-white p-8 text-center text-sm text-slate-500">{t.empty}</div>}{arrivals.map(bus => <article key={bus.service} className="rounded-[24px] border border-emerald-950/10 bg-white p-4 shadow-[0_8px_30px_rgba(9,38,35,.06)] sm:p-5"><div className="flex items-center gap-4"><div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[#c9f45b] text-xl font-black">{bus.service}</div><div className="min-w-0 flex-1"><div className="flex items-baseline justify-between gap-2"><span className="text-xs font-semibold text-slate-500">{t.next}</span><span className="text-xs text-slate-400">{bus.type}</span></div><div className="mt-1 flex items-baseline gap-2"><span className="text-3xl font-black tracking-[-.05em]">{bus.minutes[0] === 0 ? t.arriving : bus.minutes[0]}</span>{bus.minutes[0] !== 0 && <span className="font-semibold text-slate-500">{t.min}</span>}<span className="ml-auto text-sm font-bold text-emerald-700">{bus.minutes.slice(1).join(" · ")} {t.min}</span></div></div></div><div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs"><span className="font-semibold text-emerald-700">● {bus.load}</span><span className="text-slate-400">{bus.wheelchair ? t.wheelchair : ""}</span></div></article>)}</div>
         <button onClick={() => setShowQr(v => !v)} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-950/10 bg-white px-4 py-3 text-sm font-bold shadow-sm"><QrCode size={18}/> {t.qrButton}</button>
-        {showQr && <div className="mt-3 rounded-[24px] border border-emerald-950/10 bg-white p-5 text-center shadow-[0_8px_30px_rgba(9,38,35,.06)]"><h3 className="font-bold">{t.qrTitle} · {activeStop}</h3><p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-slate-500">{t.qrHelp}</p><div className="mx-auto mt-4 w-fit rounded-2xl border border-slate-200 p-3"><QRCodeCanvas ref={qrRef} value={qrUrl} size={220} level="H" marginSize={1}/></div><button onClick={downloadQr} className="mx-auto mt-4 flex items-center gap-2 rounded-full bg-[#c9f45b] px-5 py-2.5 text-sm font-bold"><Download size={17}/> {t.download}</button><p className="mt-3 break-all text-[11px] text-slate-400">{qrUrl}</p></div>}
+        {showQr && <div className="mt-3 rounded-[24px] border border-emerald-950/10 bg-white p-5 text-center shadow-[0_8px_30px_rgba(9,38,35,.06)]"><h3 className="font-bold">{t.qrTitle} · {activeStop}</h3><p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-slate-500">{t.qrHelp}</p><div className="mx-auto mt-4 w-fit rounded-2xl border border-slate-200 p-3"><QRCodeCanvas ref={qrRef} value={qrUrl} size={220} level="H" marginSize={1}/></div><button onClick={() => void downloadQr()} className="mx-auto mt-4 flex items-center gap-2 rounded-full bg-[#c9f45b] px-5 py-2.5 text-sm font-bold"><Download size={17}/> {t.download}</button>{qrImage && <div className="mt-4 rounded-2xl bg-amber-50 p-3"><p className="mb-2 text-xs leading-5 text-amber-900">{t.saveHint}</p><img src={qrImage} alt={`${t.stop} ${activeStop} QR`} className="mx-auto h-[220px] w-[220px]"/></div>}<p className="mt-3 break-all text-[11px] text-slate-400">{qrUrl}</p></div>}
         <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-slate-500"><Clock3 size={14}/> {t.updated} {updated} · {t.estimate}</p>
       </section>
     </div>
