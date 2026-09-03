@@ -20,6 +20,7 @@ const BusStatus = () => {
   const [stop, setStop] = useState("59009");
   const [activeStop, setActiveStop] = useState("59009");
   const [stopName, setStopName] = useState("");
+  const [stopRoad, setStopRoad] = useState("");
   const [arrivals, setArrivals] = useState<Arrival[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<"loading"|"success"|"invalid"|"error">("loading");
@@ -90,9 +91,15 @@ const BusStatus = () => {
   useEffect(() => {
     let cancelled = false;
     setStopName("");
+    setStopRoad("");
     fetch(`/api/bus-stop?stop=${activeStop}`)
       .then((response) => response.ok ? response.json() : null)
-      .then((data: { name?: string } | null) => { if (!cancelled) setStopName(data?.name || ""); })
+      .then((data: { name?: string; roadName?: string } | null) => {
+        if (!cancelled) {
+          setStopName(data?.name || "");
+          setStopRoad(data?.roadName || "");
+        }
+      })
       .catch(() => undefined);
     return () => { cancelled = true; };
   }, [activeStop]);
@@ -178,7 +185,7 @@ const BusStatus = () => {
         {nearbyStops.length > 0 && <div className="mt-4 overflow-hidden rounded-2xl bg-white text-[#092623]"><p className="border-b border-slate-100 px-4 py-3 text-sm font-bold">{t.nearby}</p>{nearbyStops.map((item) => <button type="button" key={item.code} onClick={() => selectNearbyStop(item)} className="flex w-full items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 text-left last:border-0 hover:bg-emerald-50"><span className="min-w-0"><strong className="text-sm">{item.code} · {item.name}</strong><span className="mt-0.5 block truncate text-xs text-slate-500">{item.road}</span></span><span className="shrink-0 rounded-full bg-[#e8f8bd] px-2.5 py-1 text-xs font-bold">{item.distance} {t.metres}</span></button>)}</div>}
       </section>
 
-      <section className="mt-7"><div className="mb-4 flex items-end justify-between gap-4 px-1"><div><p className="text-xs font-bold uppercase tracking-[.13em] text-emerald-700">{t.arrivals}</p><h2 className="mt-1 text-xl font-bold">{t.stop} {activeStop}{stopName ? ` · ${stopName}` : ""}</h2></div><button disabled={loading} onClick={() => void loadArrivals(activeStop)} className="flex items-center gap-1.5 rounded-full border border-emerald-950/10 bg-white px-3 py-2 text-xs font-semibold shadow-sm disabled:opacity-50"><RefreshCw className={loading ? "animate-spin" : ""} size={14}/> {t.refresh}</button></div>
+      <section className="mt-7"><div className="mb-4 flex items-end justify-between gap-4 px-1"><div><p className="text-xs font-bold uppercase tracking-[.13em] text-emerald-700">{t.arrivals}</p><h2 className="mt-1 text-xl font-bold">{t.stop} {activeStop}{stopName ? ` · ${stopName}` : ""}</h2>{stopRoad && <p className="mt-1 text-sm font-medium text-slate-500">{stopRoad}</p>}</div><button disabled={loading} onClick={() => void loadArrivals(activeStop)} className="flex items-center gap-1.5 rounded-full border border-emerald-950/10 bg-white px-3 py-2 text-xs font-semibold shadow-sm disabled:opacity-50"><RefreshCw className={loading ? "animate-spin" : ""} size={14}/> {t.refresh}</button></div>
         <div className={`mb-3 flex items-start gap-2 rounded-2xl px-3.5 py-3 text-xs font-medium ${status === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-900" : "border border-amber-200 bg-amber-50 text-amber-900"}`}><AlertTriangle className="mt-0.5 shrink-0" size={15}/><span>{notice}</span></div>
         <div className="space-y-3">{!loading && arrivals.length === 0 && <div className="rounded-[24px] border border-emerald-950/10 bg-white p-8 text-center text-sm text-slate-500">{t.empty}</div>}{arrivals.map(bus => { const reminderOn=reminders.has(`${activeStop}:${bus.service}`); return <article key={bus.service} className="rounded-[24px] border border-emerald-950/10 bg-white p-4 shadow-[0_8px_30px_rgba(9,38,35,.06)] sm:p-5"><div className="flex items-center gap-3"><div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[#c9f45b] text-xl font-black">{bus.service}</div><div className="min-w-0 flex-1"><div className="flex items-baseline justify-between gap-2"><span className="text-xs font-semibold text-slate-500">{t.next}</span><span className="text-xs text-slate-400">{bus.type}</span></div><div className="mt-1 flex items-baseline gap-2"><span className="text-3xl font-black tracking-[-.05em]">{bus.minutes[0] === 0 ? t.arriving : bus.minutes[0]}</span>{bus.minutes[0] !== 0 && <span className="font-semibold text-slate-500">{t.min}</span>}<span className="ml-auto text-sm font-bold text-emerald-700">{bus.minutes.slice(1).join(" · ")} {t.min}</span></div></div><button type="button" onClick={()=>toggleReminder(bus.service)} aria-label={`${bus.service} ${reminderOn?t.reminderOn:t.remind}`} className={`flex shrink-0 flex-col items-center gap-1 rounded-2xl px-2.5 py-2 text-[10px] font-bold ${reminderOn?"bg-emerald-700 text-white":"bg-slate-100 text-slate-600 hover:bg-emerald-50"}`}>{reminderOn?<BellRing size={19}/>:<Bell size={19}/>}<span>{reminderOn?t.reminderOn:t.remind}</span></button></div><div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs"><span className="font-semibold text-emerald-700">● {bus.load}</span><span className="text-slate-400">{bus.wheelchair ? t.wheelchair : ""}</span></div></article>})}</div>
         <button onClick={() => setShowQr(v => !v)} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-950/10 bg-white px-4 py-3 text-sm font-bold shadow-sm"><QrCode size={18}/> {t.qrButton}</button>
