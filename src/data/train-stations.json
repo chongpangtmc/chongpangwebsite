@@ -1,0 +1,1067 @@
+[
+  {
+    "code": "NS1",
+    "en": "Jurong East",
+    "zh": "裕廊东"
+  },
+  {
+    "code": "NS2",
+    "en": "Bukit Batok",
+    "zh": "武吉巴督"
+  },
+  {
+    "code": "NS3",
+    "en": "Bukit Gombak",
+    "zh": "武吉甘柏"
+  },
+  {
+    "code": "NS4",
+    "en": "Choa Chu Kang",
+    "zh": "蔡厝港"
+  },
+  {
+    "code": "NS5",
+    "en": "Yew Tee",
+    "zh": "油池"
+  },
+  {
+    "code": "NS7",
+    "en": "Kranji",
+    "zh": "克兰芝"
+  },
+  {
+    "code": "NS8",
+    "en": "Marsiling",
+    "zh": "马西岭"
+  },
+  {
+    "code": "NS9",
+    "en": "Woodlands",
+    "zh": "兀兰"
+  },
+  {
+    "code": "NS10",
+    "en": "Admiralty",
+    "zh": "海军部"
+  },
+  {
+    "code": "NS11",
+    "en": "Sembawang",
+    "zh": "三巴旺"
+  },
+  {
+    "code": "NS12",
+    "en": "Canberra",
+    "zh": "坎贝拉"
+  },
+  {
+    "code": "NS13",
+    "en": "Yishun",
+    "zh": "义顺"
+  },
+  {
+    "code": "NS14",
+    "en": "Khatib",
+    "zh": "卡迪"
+  },
+  {
+    "code": "NS15",
+    "en": "Yio Chu Kang",
+    "zh": "杨厝港"
+  },
+  {
+    "code": "NS16",
+    "en": "Ang Mo Kio",
+    "zh": "宏茂桥"
+  },
+  {
+    "code": "NS17",
+    "en": "Bishan",
+    "zh": "碧山"
+  },
+  {
+    "code": "NS18",
+    "en": "Braddell",
+    "zh": "布莱德"
+  },
+  {
+    "code": "NS19",
+    "en": "Toa Payoh",
+    "zh": "大巴窑"
+  },
+  {
+    "code": "NS20",
+    "en": "Novena",
+    "zh": "诺维娜"
+  },
+  {
+    "code": "NS21",
+    "en": "Newton",
+    "zh": "纽顿"
+  },
+  {
+    "code": "NS22",
+    "en": "Orchard",
+    "zh": "乌节"
+  },
+  {
+    "code": "NS23",
+    "en": "Somerset",
+    "zh": "索美塞"
+  },
+  {
+    "code": "NS24",
+    "en": "Dhoby Ghaut",
+    "zh": "多美歌"
+  },
+  {
+    "code": "NS25",
+    "en": "City Hall",
+    "zh": "政府大厦"
+  },
+  {
+    "code": "NS26",
+    "en": "Raffles Place",
+    "zh": "莱佛士坊"
+  },
+  {
+    "code": "NS27",
+    "en": "Marina Bay",
+    "zh": "滨海湾"
+  },
+  {
+    "code": "NS28",
+    "en": "Marina South Pier",
+    "zh": "滨海南码头"
+  },
+  {
+    "code": "EW1",
+    "en": "Pasir Ris",
+    "zh": "巴西立"
+  },
+  {
+    "code": "EW2",
+    "en": "Tampines",
+    "zh": "淡滨尼"
+  },
+  {
+    "code": "EW3",
+    "en": "Simei",
+    "zh": "四美"
+  },
+  {
+    "code": "EW4",
+    "en": "Tanah Merah",
+    "zh": "丹那美拉"
+  },
+  {
+    "code": "EW5",
+    "en": "Bedok",
+    "zh": "勿洛"
+  },
+  {
+    "code": "EW6",
+    "en": "Kembangan",
+    "zh": "景万岸"
+  },
+  {
+    "code": "EW7",
+    "en": "Eunos",
+    "zh": "友诺士"
+  },
+  {
+    "code": "EW8",
+    "en": "Paya Lebar",
+    "zh": "巴耶利峇"
+  },
+  {
+    "code": "EW9",
+    "en": "Aljunied",
+    "zh": "阿裕尼"
+  },
+  {
+    "code": "EW10",
+    "en": "Kallang",
+    "zh": "加冷"
+  },
+  {
+    "code": "EW11",
+    "en": "Lavender",
+    "zh": "劳明达"
+  },
+  {
+    "code": "EW12",
+    "en": "Bugis",
+    "zh": "武吉士"
+  },
+  {
+    "code": "EW13",
+    "en": "City Hall",
+    "zh": "政府大厦"
+  },
+  {
+    "code": "EW14",
+    "en": "Raffles Place",
+    "zh": "莱佛士坊"
+  },
+  {
+    "code": "EW15",
+    "en": "Tanjong Pagar",
+    "zh": "丹戎巴葛"
+  },
+  {
+    "code": "EW16",
+    "en": "Outram Park",
+    "zh": "欧南园"
+  },
+  {
+    "code": "EW17",
+    "en": "Tiong Bahru",
+    "zh": "中峇鲁"
+  },
+  {
+    "code": "EW18",
+    "en": "Redhill",
+    "zh": "红山"
+  },
+  {
+    "code": "EW19",
+    "en": "Queenstown",
+    "zh": "女皇镇"
+  },
+  {
+    "code": "EW20",
+    "en": "Commonwealth",
+    "zh": "联邦"
+  },
+  {
+    "code": "EW21",
+    "en": "Buona Vista",
+    "zh": "波那维斯达"
+  },
+  {
+    "code": "EW22",
+    "en": "Dover",
+    "zh": "杜弗"
+  },
+  {
+    "code": "EW23",
+    "en": "Clementi",
+    "zh": "金文泰"
+  },
+  {
+    "code": "EW24",
+    "en": "Jurong East",
+    "zh": "裕廊东"
+  },
+  {
+    "code": "EW25",
+    "en": "Chinese Garden",
+    "zh": "裕华园"
+  },
+  {
+    "code": "EW26",
+    "en": "Lakeside",
+    "zh": "湖畔"
+  },
+  {
+    "code": "EW27",
+    "en": "Boon Lay",
+    "zh": "文礼"
+  },
+  {
+    "code": "EW28",
+    "en": "Pioneer",
+    "zh": "先驱"
+  },
+  {
+    "code": "EW29",
+    "en": "Joo Koon",
+    "zh": "裕群"
+  },
+  {
+    "code": "EW30",
+    "en": "Gul Circle",
+    "zh": "卡尔圈站"
+  },
+  {
+    "code": "EW31",
+    "en": "Tuas Crescent",
+    "zh": "大士弯站"
+  },
+  {
+    "code": "EW32",
+    "en": "Tuas West Road",
+    "zh": "大士西路站"
+  },
+  {
+    "code": "EW33",
+    "en": "Tuas Link",
+    "zh": "大士连路站"
+  },
+  {
+    "code": "CG1",
+    "en": "Expo",
+    "zh": "博览"
+  },
+  {
+    "code": "CG2",
+    "en": "Changi Airport",
+    "zh": "樟宜机场"
+  },
+  {
+    "code": "NE1",
+    "en": "HarbourFront",
+    "zh": "港湾"
+  },
+  {
+    "code": "NE3",
+    "en": "Outram Park",
+    "zh": "欧南园"
+  },
+  {
+    "code": "NE4",
+    "en": "Chinatown",
+    "zh": "牛车水"
+  },
+  {
+    "code": "NE5",
+    "en": "Clarke Quay",
+    "zh": "克拉码头"
+  },
+  {
+    "code": "NE6",
+    "en": "Dhoby Ghaut",
+    "zh": "多美歌"
+  },
+  {
+    "code": "NE7",
+    "en": "Little India",
+    "zh": "小印度"
+  },
+  {
+    "code": "NE8",
+    "en": "Farrer Park",
+    "zh": "花拉公园"
+  },
+  {
+    "code": "NE9",
+    "en": "Boon Keng",
+    "zh": "文庆"
+  },
+  {
+    "code": "NE10",
+    "en": "Potong Pasir",
+    "zh": "波东巴西"
+  },
+  {
+    "code": "NE11",
+    "en": "Woodleigh",
+    "zh": "兀里"
+  },
+  {
+    "code": "NE12",
+    "en": "Serangoon",
+    "zh": "实龙岗"
+  },
+  {
+    "code": "NE13",
+    "en": "Kovan",
+    "zh": "高文"
+  },
+  {
+    "code": "NE14",
+    "en": "Hougang",
+    "zh": "后港"
+  },
+  {
+    "code": "NE15",
+    "en": "Buangkok",
+    "zh": "万国"
+  },
+  {
+    "code": "NE16",
+    "en": "Sengkang",
+    "zh": "盛港"
+  },
+  {
+    "code": "NE17",
+    "en": "Punggol",
+    "zh": "榜鹅"
+  },
+  {
+    "code": "NE18",
+    "en": "Punggol Coast",
+    "zh": "榜鹅海岸"
+  },
+  {
+    "code": "CC1",
+    "en": "Dhoby Ghaut",
+    "zh": "多美歌"
+  },
+  {
+    "code": "CC2",
+    "en": "Bras Basah",
+    "zh": "百胜"
+  },
+  {
+    "code": "CC3",
+    "en": "Esplanade",
+    "zh": "滨海中心"
+  },
+  {
+    "code": "CC4",
+    "en": "Promenade",
+    "zh": "宝门廊"
+  },
+  {
+    "code": "CC5",
+    "en": "Nicoll Highway",
+    "zh": "尼诰大道"
+  },
+  {
+    "code": "CC6",
+    "en": "Stadium",
+    "zh": "体育场"
+  },
+  {
+    "code": "CC7",
+    "en": "Mountbatten",
+    "zh": "蒙巴登"
+  },
+  {
+    "code": "CC8",
+    "en": "Dakota",
+    "zh": "达科达"
+  },
+  {
+    "code": "CC9",
+    "en": "Paya Lebar",
+    "zh": "巴耶利峇"
+  },
+  {
+    "code": "CC10",
+    "en": "MacPherson",
+    "zh": "麦波申"
+  },
+  {
+    "code": "CC11",
+    "en": "Tai Seng",
+    "zh": "大成"
+  },
+  {
+    "code": "CC12",
+    "en": "Bartley",
+    "zh": "巴特礼"
+  },
+  {
+    "code": "CC13",
+    "en": "Serangoon",
+    "zh": "实龙岗"
+  },
+  {
+    "code": "CC14",
+    "en": "Lorong Chuan",
+    "zh": "罗弄泉"
+  },
+  {
+    "code": "CC15",
+    "en": "Bishan",
+    "zh": "碧山"
+  },
+  {
+    "code": "CC16",
+    "en": "Marymount",
+    "zh": "玛丽蒙"
+  },
+  {
+    "code": "CC17",
+    "en": "Caldecott",
+    "zh": "加利谷"
+  },
+  {
+    "code": "CC19",
+    "en": "Botanic Gardens",
+    "zh": "植物园"
+  },
+  {
+    "code": "CC20",
+    "en": "Farrer Road",
+    "zh": "花拉路"
+  },
+  {
+    "code": "CC21",
+    "en": "Holland Village",
+    "zh": "荷兰村"
+  },
+  {
+    "code": "CC22",
+    "en": "Buona Vista",
+    "zh": "波那维斯达"
+  },
+  {
+    "code": "CC23",
+    "en": "one-north",
+    "zh": "纬壹"
+  },
+  {
+    "code": "CC24",
+    "en": "Kent Ridge",
+    "zh": "肯特岗"
+  },
+  {
+    "code": "CC25",
+    "en": "Haw Par Villa",
+    "zh": "虎豹别墅"
+  },
+  {
+    "code": "CC26",
+    "en": "Pasir Panjang",
+    "zh": "巴西班让"
+  },
+  {
+    "code": "CC27",
+    "en": "Labrador Park",
+    "zh": "拉柏多公园"
+  },
+  {
+    "code": "CC28",
+    "en": "Telok Blangah",
+    "zh": "直落布兰雅"
+  },
+  {
+    "code": "CC29",
+    "en": "HarbourFront",
+    "zh": "港湾"
+  },
+  {
+    "code": "CE1",
+    "en": "Bayfront",
+    "zh": "海湾舫"
+  },
+  {
+    "code": "CE2",
+    "en": "Marina Bay",
+    "zh": "滨海湾"
+  },
+  {
+    "code": "DT1",
+    "en": "Bukit Panjang",
+    "zh": "武吉班让"
+  },
+  {
+    "code": "DT2",
+    "en": "Cashew",
+    "zh": "凯秀"
+  },
+  {
+    "code": "DT3",
+    "en": "Hillview",
+    "zh": "山景"
+  },
+  {
+    "code": "DT4",
+    "en": "Hume",
+    "zh": "谦道"
+  },
+  {
+    "code": "DT5",
+    "en": "Beauty World",
+    "zh": "美世界"
+  },
+  {
+    "code": "DT6",
+    "en": "King Albert Park",
+    "zh": "阿尔柏王园"
+  },
+  {
+    "code": "DT7",
+    "en": "Sixth Avenue",
+    "zh": "第六道"
+  },
+  {
+    "code": "DT8",
+    "en": "Tan Kah Kee",
+    "zh": "陈嘉庚"
+  },
+  {
+    "code": "DT9",
+    "en": "Botanic Gardens",
+    "zh": "植物园"
+  },
+  {
+    "code": "DT10",
+    "en": "Stevens",
+    "zh": "史蒂芬"
+  },
+  {
+    "code": "DT11",
+    "en": "Newton",
+    "zh": "纽顿"
+  },
+  {
+    "code": "DT12",
+    "en": "Little India",
+    "zh": "小印度"
+  },
+  {
+    "code": "DT13",
+    "en": "Rochor",
+    "zh": "梧槽"
+  },
+  {
+    "code": "DT14",
+    "en": "Bugis",
+    "zh": "武吉士"
+  },
+  {
+    "code": "DT15",
+    "en": "Promenade",
+    "zh": "宝门廊"
+  },
+  {
+    "code": "DT16",
+    "en": "Bayfront",
+    "zh": "海湾舫"
+  },
+  {
+    "code": "DT17",
+    "en": "Downtown",
+    "zh": "市中心"
+  },
+  {
+    "code": "DT18",
+    "en": "Telok Ayer",
+    "zh": "直落亚逸"
+  },
+  {
+    "code": "DT19",
+    "en": "Chinatown",
+    "zh": "牛车水"
+  },
+  {
+    "code": "DT20",
+    "en": "Fort Canning",
+    "zh": "福康宁"
+  },
+  {
+    "code": "DT21",
+    "en": "Bencoolen",
+    "zh": "明古连"
+  },
+  {
+    "code": "DT22",
+    "en": "Jalan Besar",
+    "zh": "惹兰勿刹"
+  },
+  {
+    "code": "DT23",
+    "en": "Bendemeer",
+    "zh": "明地迷亚"
+  },
+  {
+    "code": "DT24",
+    "en": "Geylang Bahru",
+    "zh": "芽笼峇鲁"
+  },
+  {
+    "code": "DT25",
+    "en": "Mattar",
+    "zh": "玛达"
+  },
+  {
+    "code": "DT26",
+    "en": "MacPherson",
+    "zh": "麦波申"
+  },
+  {
+    "code": "DT27",
+    "en": "Ubi",
+    "zh": "乌美"
+  },
+  {
+    "code": "DT28",
+    "en": "Kaki Bukit",
+    "zh": "加基武吉"
+  },
+  {
+    "code": "DT29",
+    "en": "Bedok North",
+    "zh": "勿洛北"
+  },
+  {
+    "code": "DT30",
+    "en": "Bedok Reservoir",
+    "zh": "勿洛蓄水池"
+  },
+  {
+    "code": "DT31",
+    "en": "Tampines West",
+    "zh": "淡滨尼西"
+  },
+  {
+    "code": "DT32",
+    "en": "Tampines",
+    "zh": "淡滨尼"
+  },
+  {
+    "code": "DT33",
+    "en": "Tampines East",
+    "zh": "淡滨尼东"
+  },
+  {
+    "code": "DT34",
+    "en": "Upper Changi",
+    "zh": "樟宜上段"
+  },
+  {
+    "code": "DT35",
+    "en": "Expo",
+    "zh": "博览"
+  },
+  {
+    "code": "BP1",
+    "en": "Choa Chu Kang",
+    "zh": "蔡厝港"
+  },
+  {
+    "code": "BP2",
+    "en": "South View",
+    "zh": "南山"
+  },
+  {
+    "code": "BP3",
+    "en": "Keat Hong",
+    "zh": "吉丰"
+  },
+  {
+    "code": "BP4",
+    "en": "Teck Whye",
+    "zh": "德惠"
+  },
+  {
+    "code": "BP5",
+    "en": "Phoenix",
+    "zh": "凤凰"
+  },
+  {
+    "code": "BP6",
+    "en": "Bukit Panjang",
+    "zh": "武吉班让"
+  },
+  {
+    "code": "BP7",
+    "en": "Petir",
+    "zh": "柏提"
+  },
+  {
+    "code": "BP8",
+    "en": "Pending",
+    "zh": "秉定"
+  },
+  {
+    "code": "BP9",
+    "en": "Bangkit",
+    "zh": "万吉"
+  },
+  {
+    "code": "BP10",
+    "en": "Fajar",
+    "zh": "法嘉"
+  },
+  {
+    "code": "BP11",
+    "en": "Segar",
+    "zh": "实加"
+  },
+  {
+    "code": "BP12",
+    "en": "Jelapang",
+    "zh": "泽拉邦"
+  },
+  {
+    "code": "BP13",
+    "en": "Senja",
+    "zh": "信佳"
+  },
+  {
+    "code": "STC",
+    "en": "Sengkang",
+    "zh": "盛港"
+  },
+  {
+    "code": "SE1",
+    "en": "Compassvale",
+    "zh": "康埔桦"
+  },
+  {
+    "code": "SE2",
+    "en": "Rumbia",
+    "zh": "棕美"
+  },
+  {
+    "code": "SE3",
+    "en": "Bakau",
+    "zh": "码高"
+  },
+  {
+    "code": "SE4",
+    "en": "Kangkar",
+    "zh": "港脚"
+  },
+  {
+    "code": "SE5",
+    "en": "Ranggung",
+    "zh": "兰岗"
+  },
+  {
+    "code": "SW1",
+    "en": "Cheng Lim",
+    "zh": "振林"
+  },
+  {
+    "code": "SW2",
+    "en": "Farmway",
+    "zh": "农道"
+  },
+  {
+    "code": "SW3",
+    "en": "Kupang",
+    "zh": "古邦"
+  },
+  {
+    "code": "SW4",
+    "en": "Thanggam",
+    "zh": "丹甘"
+  },
+  {
+    "code": "SW5",
+    "en": "Fernvale",
+    "zh": "芬微"
+  },
+  {
+    "code": "SW6",
+    "en": "Layar",
+    "zh": "拉雅"
+  },
+  {
+    "code": "SW7",
+    "en": "Tongkang",
+    "zh": "同港"
+  },
+  {
+    "code": "SW8",
+    "en": "Renjong",
+    "zh": "仁宗"
+  },
+  {
+    "code": "PTC",
+    "en": "Punggol",
+    "zh": "榜鹅"
+  },
+  {
+    "code": "PE1",
+    "en": "Cove",
+    "zh": "海湾"
+  },
+  {
+    "code": "PE2",
+    "en": "Meridian",
+    "zh": "丽园"
+  },
+  {
+    "code": "PE3",
+    "en": "Coral Edge",
+    "zh": "珊瑚"
+  },
+  {
+    "code": "PE4",
+    "en": "Riviera",
+    "zh": "里维拉"
+  },
+  {
+    "code": "PE5",
+    "en": "Kadaloor",
+    "zh": "卡达鲁"
+  },
+  {
+    "code": "PE6",
+    "en": "Oasis",
+    "zh": "绿洲"
+  },
+  {
+    "code": "PE7",
+    "en": "Damai",
+    "zh": "达迈"
+  },
+  {
+    "code": "PW1",
+    "en": "Sam Kee",
+    "zh": "三记"
+  },
+  {
+    "code": "PW2",
+    "en": "Teck Lee",
+    "zh": "德利"
+  },
+  {
+    "code": "PW3",
+    "en": "Punggol Point",
+    "zh": "榜鹅坊"
+  },
+  {
+    "code": "PW4",
+    "en": "Samudera",
+    "zh": "山姆"
+  },
+  {
+    "code": "PW5",
+    "en": "Nibong",
+    "zh": "尼蒙"
+  },
+  {
+    "code": "PW6",
+    "en": "Sumang",
+    "zh": "苏芒"
+  },
+  {
+    "code": "PW7",
+    "en": "Soo Teck",
+    "zh": "树德"
+  },
+  {
+    "code": "TE1",
+    "en": "Woodlands North",
+    "zh": "兀兰北"
+  },
+  {
+    "code": "TE2",
+    "en": "Woodlands",
+    "zh": "兀兰"
+  },
+  {
+    "code": "TE3",
+    "en": "Woodlands South",
+    "zh": "兀兰南"
+  },
+  {
+    "code": "TE4",
+    "en": "Springleaf",
+    "zh": "春叶"
+  },
+  {
+    "code": "TE5",
+    "en": "Lentor",
+    "zh": "伦多"
+  },
+  {
+    "code": "TE6",
+    "en": "Mayflower",
+    "zh": "美华"
+  },
+  {
+    "code": "TE7",
+    "en": "Bright Hill",
+    "zh": "光明山"
+  },
+  {
+    "code": "TE8",
+    "en": "Upper Thomson",
+    "zh": "汤申路上段"
+  },
+  {
+    "code": "TE9",
+    "en": "Caldecott",
+    "zh": "加利谷"
+  },
+  {
+    "code": "TE11",
+    "en": "Stevens",
+    "zh": "史蒂芬"
+  },
+  {
+    "code": "TE12",
+    "en": "Napier",
+    "zh": "纳比雅"
+  },
+  {
+    "code": "TE13",
+    "en": "Orchard Boulevard",
+    "zh": "乌节大道"
+  },
+  {
+    "code": "TE14",
+    "en": "Orchard",
+    "zh": "乌节"
+  },
+  {
+    "code": "TE15",
+    "en": "Great World",
+    "zh": "大世界"
+  },
+  {
+    "code": "TE16",
+    "en": "Havelock",
+    "zh": "合乐"
+  },
+  {
+    "code": "TE17",
+    "en": "Outram Park",
+    "zh": "欧南园"
+  },
+  {
+    "code": "TE18",
+    "en": "Maxwell",
+    "zh": "麦士威"
+  },
+  {
+    "code": "TE19",
+    "en": "Shenton Way",
+    "zh": "珊顿道"
+  },
+  {
+    "code": "TE20",
+    "en": "Marina Bay",
+    "zh": "滨海湾"
+  },
+  {
+    "code": "TE22",
+    "en": "Gardens by the Bay",
+    "zh": "滨海湾花园"
+  },
+  {
+    "code": "TE23",
+    "en": "Tanjong Rhu",
+    "zh": "丹戎禺"
+  },
+  {
+    "code": "TE24",
+    "en": "Katong Park",
+    "zh": "加东公园"
+  },
+  {
+    "code": "TE25",
+    "en": "Tanjong Katong",
+    "zh": "丹戎加东"
+  },
+  {
+    "code": "TE26",
+    "en": "Marine Parade",
+    "zh": "马林百列"
+  },
+  {
+    "code": "TE27",
+    "en": "Marine Terrace",
+    "zh": "马林台"
+  },
+  {
+    "code": "TE28",
+    "en": "Siglap",
+    "zh": "实乞纳"
+  },
+  {
+    "code": "TE29",
+    "en": "Bayshore",
+    "zh": "碧湾"
+  }
+]
