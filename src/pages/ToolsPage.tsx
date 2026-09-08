@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BarChart3, ChevronRight, Clock3, ExternalLink, FileText, Monitor, Settings, Timer, Vote, Zap } from 'lucide-react';
+import { BarChart3, BusFront, ChevronRight, Clock3, ExternalLink, FileText, Monitor, Settings, Timer, Vote, Zap } from 'lucide-react';
 
 const ToolsPage = () => {
   const [activeTab, setActiveTab] = useState('meeting');
@@ -11,6 +11,7 @@ const ToolsPage = () => {
     { id: 'timer', label: '计时工具', icon: <Timer size={18} /> },
     { id: 'voting', label: '投选工具', icon: <Vote size={18} /> },
     { id: 'impromptu', label: '即席工具', icon: <Zap size={18} /> },
+    { id: 'transport', label: '交通查询', icon: <BusFront size={18} /> },
   ];
 
   return (
@@ -111,6 +112,13 @@ const ToolsPage = () => {
                     <Header color="bg-orange-500" title="即席演讲工具" />
                     <ToolLink href="https://www.hellosg.org/impromptu-display?id=chongpang" icon={<Monitor size={28} />} title="即席主持展示页面" desc="投射在大屏幕或共享屏幕，展示即席题目" color="text-orange-500" />
                     <ToolLink href="https://www.hellosg.org/impromptu-admin?id=chongpang" icon={<Settings size={28} />} title="即席题目管理后台" desc="执委专用：预设、编辑和控制题目展示顺序" color="text-slate-800" />
+                  </div>
+                )}
+
+                {activeTab === 'transport' && (
+                  <div>
+                    <Header color="bg-emerald-500" title="交通查询" />
+                    <ToolLink href="https://chongpangtmc.hellosg.org/bus_status" icon={<BusFront size={28} />} title="新加坡巴士到站时间查询" desc="查询实时巴士到站时间、完整路线及附近巴士站" color="text-emerald-600" />
                   </div>
                 )}
               </motion.div>
