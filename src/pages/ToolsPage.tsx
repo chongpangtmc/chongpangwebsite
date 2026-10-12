@@ -11,7 +11,7 @@ const ToolsPage = () => {
     { id: 'timer', label: '计时工具', icon: <Timer size={18} /> },
     { id: 'voting', label: '投选工具', icon: <Vote size={18} /> },
     { id: 'impromptu', label: '即席工具', icon: <Zap size={18} /> },
-    { id: 'emcee', label: '司仪台', icon: <Mic size={18} /> },
+    { id: 'emcee', label: '教育工具', icon: <Mic size={18} /> },
     { id: 'transport', label: '交通状态查询', icon: <BusFront size={18} /> },
   ];
 
@@ -118,8 +118,8 @@ const ToolsPage = () => {
 
                 {activeTab === 'emcee' && (
                   <div>
-                    <Header color="bg-[#772432]" title="司仪台" />
-                    <ToolLink href="https://chongpang-emcee.hellosg.org" icon={<Mic size={28} />} title="司仪台" desc="忠邦华语演讲会司仪台" color="text-[#772432]" />
+                    <Header color="bg-[#772432]" title="教育工具" />
+                    <ToolLink href="https://chongpang-educational-tools.hellosg.org" icon={<Mic size={28} />} title="教育工具" desc="忠邦华语演讲会教育工具" color="text-[#772432]" />
                   </div>
                 )}
 
